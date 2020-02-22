@@ -13,15 +13,15 @@ def call(body) {
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
+        environment {
+            PATH = "/busybox:/kaniko:$PATH"
+            DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
+            TEAM_NAME = "${config.team_name}"
+            TEAM_MAIL = "${config.team_mail}"
+            AGENT_TOOLS = "${config.agent_tools}"
+        }
         stages {
             stage('Build with Kaniko') {
-            environment {
-                PATH = "/busybox:/kaniko:$PATH"
-                DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
-                TEAM_NAME = "${config.team_name}"
-                TEAM_MAIL = "${config.team_mail}"
-                AGENT_TOOLS = "${config.agent_tools}"
-            }
             agent {
                 kubernetes {
                 label 'example-kaniko-volumes'
