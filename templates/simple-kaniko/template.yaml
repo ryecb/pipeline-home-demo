@@ -1,0 +1,27 @@
+version: 1
+type: pipeline-template
+
+name: Kubernetes Docker Builder 
+description: Implementation of a Kaniko parametrized pipeline
+parameters:
+  - name: k8_secret
+    type: string
+    displayName: Kubernetes Secret for registry
+  - name: docker_registry
+    type: string
+    displayName: Docker Registry to upload
+  - name: docker_image
+    type: string
+    displayName: Docker Image name
+  - name: docker_tag
+    type: string
+    displayName: Docker Image tag
+  - name: agent_tools
+    type: string
+    displayName: Tools to install in the agent
+  - name: team_name
+    type: string
+    displayName: Name of team responsible for the Agent image
+  - name: team_mail
+    type: string
+    displayName: Email of team responsible for the Agent image

@@ -1,0 +1,11 @@
+[
+    {
+      "scm":{ 
+        "$class":"GitSCMSource",
+        "remote":"https://github.com/carlosrodlop/my-template-catalog.git",
+        "credentialsId":"carlosrodlop-GH"
+      },
+      "branchOrTag":"master",
+      "updateInterval":"2d"
+    }
+ ]
