@@ -1,6 +1,6 @@
 library identifier: 'my-shared-libraries@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
-   remote: 'https://github.com/carlosrodlop/my-shared-libraries.git',
+   remote: 'https://github.com/carlosrodlop/my-pipeline-home.git',
    credentialsId: 'carlosrodlop-GH'])
 
 buildAgentKanikoProject {
