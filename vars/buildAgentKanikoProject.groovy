@@ -26,23 +26,23 @@ def call(body) {
                 kubernetes {
                 label 'example-kaniko-volumes'
                 yaml """
-        kind: Pod
-        metadata:
-        name: kaniko
-        spec:
-        containers:
-        - name: jnlp
-            workingDir: /home/jenkins/agent
-        - name: kaniko
-            workingDir: /home/jenkins/agent
-            image: gcr.io/kaniko-project/executor:debug
-            imagePullPolicy: Always
-            command:
-            - /busybox/cat
-            tty: true
-            volumeMounts:
-            - name: jenkins-docker-cfg
-                mountPath: /kaniko/.docker
+kind: Pod
+metadata:
+name: kaniko
+spec:
+    containers:
+    - name: jnlp
+        workingDir: /home/jenkins/agent
+    - name: kaniko
+        workingDir: /home/jenkins/agent
+        image: gcr.io/kaniko-project/executor:debug
+        imagePullPolicy: Always
+        command:
+        - /busybox/cat
+        tty: true
+        volumeMounts:
+        - name: jenkins-docker-cfg
+            mountPath: /kaniko/.docker
         volumes:
         - name: jenkins-docker-cfg
             projected:

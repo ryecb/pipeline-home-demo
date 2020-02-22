@@ -39,4 +39,4 @@ mavenProject {
 	rebuildBuildImage = true
 	protectedBranches = ['master']
 }
-``
+```
