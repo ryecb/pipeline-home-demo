@@ -23,33 +23,9 @@ def call(body) {
         stages {
             stage('Build with Kaniko') {
             agent {
+                label 'kaniko-builder'
                 kubernetes {
-                label 'example-kaniko-volumes'
-                yaml """
-kind: Pod
-metadata:
-  name: kaniko
-spec:
-  containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: Always
-    command:
-    - /busybox/cat
-    tty: true
-    volumeMounts:
-      - name: jenkins-docker-cfg
-        mountPath: /kaniko/.docker
-  volumes:
-  - name: jenkins-docker-cfg
-    projected:
-      sources:
-      - secret:
-          name: ${K8_SECRET} 
-          items:
-            - key: .dockerconfigjson
-              path: config.json
-"""
+                    yaml libraryResource('agents/pods/kaniko.yaml')
                 }
             }
             steps {
