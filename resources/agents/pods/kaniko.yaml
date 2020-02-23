@@ -17,7 +17,7 @@ spec:
     projected:
       sources:
       - secret:
-          name: ${K8_SECRET} 
+          name: supportbeescloud
           items:
             - key: .dockerconfigjson
               path: config.json
