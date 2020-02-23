@@ -2,7 +2,7 @@
     {
       "scm":{ 
         "$class":"GitSCMSource",
-        "remote":"https://github.com/carlosrodlop/my-template-catalog.git",
+        "remote":"https://github.com/carlosrodlop/my-pipeline-home.git",
         "credentialsId":"carlosrodlop-GH"
       },
       "branchOrTag":"master",
