@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 buildAgentKanikoProject {
-    k8_secret = "supportbeescloud"
+    k8_agent = "agents/pods/kaniko.yaml"
 		docker_registry = "supportbeescloud"
     docker_image = "python-agent"
     docker_tag = "0.2"

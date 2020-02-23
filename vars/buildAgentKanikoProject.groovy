@@ -5,8 +5,6 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    //used for analytics indexing
-    def K8_SECRET = config.k8_secret
 
     pipeline {
         agent none
@@ -15,6 +13,7 @@ def call(body) {
         }
         environment {
             PATH = "/busybox:/kaniko:$PATH"
+            K8_AGENT_YAML = "${config.k8_agent_yaml}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
             TEAM_NAME = "${config.team_name}"
             TEAM_MAIL = "${config.team_mail}"
@@ -24,7 +23,7 @@ def call(body) {
             stage('Build with Kaniko') {
             agent {
                 kubernetes {
-                    yaml libraryResource('agents/pods/kaniko.yaml')
+                    yaml libraryResource("${K8_AGENT_YAML}")
                 }
             }
             steps {
