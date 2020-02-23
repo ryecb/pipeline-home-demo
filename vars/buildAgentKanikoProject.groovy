@@ -23,7 +23,6 @@ def call(body) {
         stages {
             stage('Build with Kaniko') {
             agent {
-                label 'kaniko-builder'
                 kubernetes {
                     yaml libraryResource('agents/pods/kaniko.yaml')
                 }
