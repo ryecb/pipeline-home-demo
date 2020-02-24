@@ -4,9 +4,13 @@ type: pipeline-template
 name: Kubernetes Docker Builder 
 description: Implementation of a Kaniko parametrized pipeline
 parameters:
-  - name: GITLAB_CREDENTIAL
-    displayName: Gitlab Credential
-    description: Use http(s) username/password for http(s) git protocol
+  - name: gh_cred
+    displayName: GitHub Credential
+    # description: 
+    type: credentials
+  - name: gh_repo
+    displayName: Github Repository
+    description: Use http(s) 
     type: credentials
   - name: docker_registry
     type: string

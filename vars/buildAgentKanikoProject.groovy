@@ -33,25 +33,15 @@ def call(body) {
             }
             stage('Build app') {
                 steps {
-                    sh "mvn -version"
-                    sh "ls -la"
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "target/*.jar", fingerprint: true
-                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
+                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar", excludes: '.git'
                 }
             }
             stage('Build and Publish Image app') {
                 steps {
                     container(name: 'kaniko', shell: '/busybox/sh') {
                         unstash 'docker'
-                        // writeFile file: "Dockerfile", text: """
-                        // FROM jenkins/slave:4.0-1
-                        // MAINTAINER ${TEAM_NAME} <${TEAM_MAIL}>
-                        // USER root
-                        // RUN rm -rf /var/lib/apt/lists/*
-                        // RUN ${AGENT_TOOLS}
-                        // USER jenkins
-                        // """
                         sh """#!/busybox/sh
                             /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
                         """
