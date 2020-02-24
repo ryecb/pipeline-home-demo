@@ -1,8 +1,13 @@
 kind: Pod
 metadata:
-  name: kaniko
+  name: kaniko and maven
 spec:
   containers:
+  - name: maven
+    image: maven:3.3.9-jdk-8-alpine
+    command:
+    - cat
+    tty: true  
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always

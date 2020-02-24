@@ -5,10 +5,10 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
 
 buildAgentKanikoProject {
     k8_agent_yaml = "agents/pods/kaniko.yaml"
+    gh_cred = "carlosrodlop-GH"
+    gh_repo = "https://github.com/carlosrodlop/simple-app.git"
+    dockerfile_repo = "src/main/docker/Dockerfile"
 		docker_registry = "supportbeescloud"
-    docker_image = "python-agent"
-    docker_tag = "0.2"
-    agent_tools = "apt-get update && apt-get install python"
-		team_name = "Phyton Team"
-    team_mail = "phyton-team@mail.com"
+    docker_image = "simple-app"
+    docker_tag = "0.1"
 }

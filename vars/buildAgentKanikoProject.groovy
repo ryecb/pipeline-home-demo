@@ -7,50 +7,61 @@ def call(body) {
     body()
 
     pipeline {
-        agent none
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
         environment {
             PATH = "/busybox:/kaniko:$PATH"
             K8_AGENT_YAML = "${config.k8_agent_yaml}"
+            GITHUB_CREDENTIALS = "${config.gh_cred}"
+            GITHUB_REPO = "${config.gh_repo}"
+            DOCKERFILE_REPO = "${config.dockerfile_repo}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
-            TEAM_NAME = "${config.team_name}"
-            TEAM_MAIL = "${config.team_mail}"
-            AGENT_TOOLS = "${config.agent_tools}"
+        }
+        agent {
+            kubernetes {
+                defaultContainer "maven"
+                yaml libraryResource("${K8_AGENT_YAML}")
+            }
         }
         stages {
-            stage('Build with Kaniko') {
-            agent {
-                kubernetes {
-                    yaml libraryResource("${K8_AGENT_YAML}")
+            stage('Checkout app') {
+                steps {
+                    git credentialsId: "${config.github_creds}" , url: "${config.github_repo}" 
                 }
             }
-            steps {
-                container(name: 'kaniko', shell: '/busybox/sh') {
-
-                writeFile file: "Dockerfile", text: """
-                FROM jenkins/slave:4.0-1
-                MAINTAINER ${TEAM_NAME} <${TEAM_MAIL}>
-                USER root
-                RUN rm -rf /var/lib/apt/lists/*
-                RUN ${AGENT_TOOLS}
-                USER jenkins
-                """
-
-                sh """#!/busybox/sh
-                    /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
-                """
+            stage('Build app') {
+                steps {
+                    sh "mvn clean package -Dmaven.test.skip=true"
+                    archiveArtifacts artifacts: "target/*.jar", fingerprint: true
+                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
                 }
             }
+            stage('Build and Publish Image app') {
+                steps {
+                    container(name: 'kaniko', shell: '/busybox/sh') {
+                        unstash 'docker'
+                        // writeFile file: "Dockerfile", text: """
+                        // FROM jenkins/slave:4.0-1
+                        // MAINTAINER ${TEAM_NAME} <${TEAM_MAIL}>
+                        // USER root
+                        // RUN rm -rf /var/lib/apt/lists/*
+                        // RUN ${AGENT_TOOLS}
+                        // USER jenkins
+                        // """
+                        sh """#!/busybox/sh
+                            /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
+                        """
+                    }
+                }
             }
         }
-        post {
-            failure {
-                mail to: "${TEAM_MAIL}",
-                    subject: "Failed Pipeline to Build Agent: ${currentBuild.fullDisplayName}",
-                    body: "Something is wrong with ${env.BUILD_URL}"
-            }
-        }
+        // post {
+        //     failure {
+        //         mail to: "${TEAM_MAIL}",
+        //             subject: "Failed Pipeline to Build Agent: ${currentBuild.fullDisplayName}",
+        //             body: "Something is wrong with ${env.BUILD_URL}"
+        //     }
+        // }
     }
 }
