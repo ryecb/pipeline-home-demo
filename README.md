@@ -7,7 +7,7 @@ This repor was forked from [beedemo/workflowLibs](https://github.com/beedemo/wor
 * [Pipeline Template Guide](https://docs.cloudbees.com/docs/admin-resources/latest/pipeline-templates-user-guide/) from the CloudBees Docs.
 * [Using Kaniko with CloudBees Core guide](https://docs.cloudbees.com/docs/cloudbees-core/latest/cloud-admin-guide/using-kaniko) from the CloudBees Docs
 * The post [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/) from the Jenkins Blog.
-* The [simple-app]() project from my colleague Adrien Lecharpentier
+* The [simple-app](https://github.com/alecharp/simple-app) project from my colleague Adrien Lecharpentier
 
 ## Shared Library
 

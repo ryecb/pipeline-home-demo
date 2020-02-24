@@ -26,22 +26,23 @@ def call(body) {
             }
         }
         stages {
-            stage('Checkout app') {
+            stage("Checkout app") {
                 steps {
                     git branch: 'develop', credentialsId: "${config.gh_cred}" , url: "${config.gh_repo}"
                 }
             }
-            stage('Build app') {
+            stage("Build app") {
                 steps {
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "target/*.jar", fingerprint: true
-                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar", excludes: '.git'
+                    stash name: "docker", includes: "src/main/docker/Dockerfile, target/*.jar"
                 }
             }
-            stage('Build and Publish Image app') {
+            stage("Build and Publish Image app") {
                 steps {
-                    container(name: 'kaniko', shell: '/busybox/sh') {
-                        unstash 'docker'
+                    container(name: "kaniko", shell: "/busybox/sh") {
+                        deleteDir() 
+                        unstash "docker"
                         sh """#!/busybox/sh
                             /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
                         """
