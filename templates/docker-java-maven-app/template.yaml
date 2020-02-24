@@ -4,12 +4,10 @@ type: pipeline-template
 name: Kubernetes Docker Builder 
 description: Implementation of a Kaniko parametrized pipeline
 parameters:
-  - name: agent_tools
-    type: string
-    displayName: Tools to install in the agent
-  - name: agent_tools
-    type: string
-    displayName: Tools to install in the agent    
+  - name: GITLAB_CREDENTIAL
+    displayName: Gitlab Credential
+    description: Use http(s) username/password for http(s) git protocol
+    type: credentials
   - name: docker_registry
     type: string
     displayName: Docker Registry to upload

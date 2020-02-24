@@ -28,7 +28,7 @@ def call(body) {
         stages {
             stage('Checkout app') {
                 steps {
-                    git credentialsId: "${config.gh_cred}" , url: "${config.gh_repo}" 
+                    git branch: 'develop', credentialsId: "${config.gh_cred}" , url: "${config.gh_repo}"
                 }
             }
             stage('Build app') {
