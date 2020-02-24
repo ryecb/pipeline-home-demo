@@ -41,11 +41,12 @@ def call(body) {
             stage("Build and Publish Image app") {
                 steps {
                     container(name: "kaniko", shell: "/busybox/sh") {
-                        deleteDir() 
-                        unstash "docker"
-                        sh """#!/busybox/sh
-                            /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
-                        """
+                        dir("to_build") {
+                            unstash "docker"
+                            sh """#!/busybox/sh
+                                /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
+                            """
+                        }
                     }
                 }
             }
