@@ -21,9 +21,3 @@ parameters:
   - name: docker_tag
     type: string
     displayName: Docker Image tag
-multibranch:
-  branchSource:
-    github:
-        repoOwner: carlosrodlop
-        repository: ${repoName}
-        credentialsId: ${repoName}
