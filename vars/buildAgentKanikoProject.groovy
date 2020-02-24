@@ -43,7 +43,6 @@ def call(body) {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") {
                             unstash "docker"
-                            sh "ls -la"
                             sh """#!/busybox/sh
                                 /kaniko/executor -f `pwd`/src/main/docker/Dockerfile -c `pwd` --cache=true --destination ${DOCKER_DESTINATION}
                             """
