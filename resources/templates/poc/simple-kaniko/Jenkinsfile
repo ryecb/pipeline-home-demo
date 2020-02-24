@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 buildAgentKanikoProject {
-    k8_agent_yaml = "agents/pods/kaniko.yaml"
+    k8_agent_yaml = "resources/agents/pods/maven-kaniko.yaml"
     gh_cred = "carlosrodlop-GH"
     gh_repo = "https://github.com/carlosrodlop/simple-app.git"
     dockerfile_repo = "src/main/docker/Dockerfile"
