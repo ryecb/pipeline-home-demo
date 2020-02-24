@@ -45,7 +45,7 @@ def call(body) {
                             unstash "docker"
                             sh "ls -la"
                             sh """#!/busybox/sh
-                                /kaniko/executor -f `pwd`/Dockerfile -c `pwd` --cache=true --destination ${DOCKER_DESTINATION}
+                                /kaniko/executor -f `pwd`/src/main/docker/Dockerfile -c `pwd` --cache=true --destination ${DOCKER_DESTINATION}
                             """
                         }
                     }
