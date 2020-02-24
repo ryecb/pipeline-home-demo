@@ -7,7 +7,10 @@ spec:
     image: maven:3.3.9-jdk-8-alpine
     command:
     - cat
-    tty: true  
+    tty: true
+    volumeMounts:
+      - mountPath: /root/.m2/repository
+        name: maven-pv-storage
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
@@ -26,3 +29,7 @@ spec:
           items:
             - key: .dockerconfigjson
               path: config.json
+  - name: maven-pv-storage
+    persistentVolumeClaim:
+      claimName: maven-pv-claim
+      readOnly: false

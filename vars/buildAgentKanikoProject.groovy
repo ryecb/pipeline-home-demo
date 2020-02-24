@@ -44,7 +44,7 @@ def call(body) {
                         dir("to_build") {
                             unstash "docker"
                             sh """#!/busybox/sh
-                                /kaniko/executor --context `pwd` --verbosity debug --destination ${DOCKER_DESTINATION}
+                                /kaniko/executor -f `pwd`/Dockerfile -c `pwd`` --cache=true --destination ${DOCKER_DESTINATION}
                             """
                         }
                     }
