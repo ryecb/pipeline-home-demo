@@ -33,6 +33,8 @@ def call(body) {
             }
             stage('Build app') {
                 steps {
+                    sh "mvn -version"
+                    sh "ls -la"
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "target/*.jar", fingerprint: true
                     stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
