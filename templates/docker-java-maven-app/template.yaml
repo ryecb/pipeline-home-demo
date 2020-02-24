@@ -1,0 +1,27 @@
+version: 1
+type: pipeline-template
+
+name: Kubernetes Docker Builder 
+description: Implementation of a Kaniko parametrized pipeline
+parameters:
+  - name: agent_tools
+    type: string
+    displayName: Tools to install in the agent
+  - name: agent_tools
+    type: string
+    displayName: Tools to install in the agent    
+  - name: docker_registry
+    type: string
+    displayName: Docker Registry to upload
+  - name: docker_image
+    type: string
+    displayName: Docker Image name
+  - name: docker_tag
+    type: string
+    displayName: Docker Image tag
+multibranch:
+  branchSource:
+    github:
+        repoOwner: carlosrodlop
+        repository: ${repoName}
+        credentialsId: my-team-github-credentials
