@@ -1,10 +1,12 @@
-// vars/mavenProject.groovy
-def call(body) {
+// vars/mavenK8Project.groovy
+def call() {
     // evaluate the body block, and collect configuration into the object
-    def config = [:]
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
-    body()
+    // def config = [:]
+    // body.resolveStrategy = Closure.DELEGATE_FIRST
+    // body.delegate = config
+    // body()
+
+    Map config = readYaml(file: "${WORKSPACE}/pipeline.yaml")
 
     K8_AGENT_YAML = "maven_kaniko_pod.yaml"
     //K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
