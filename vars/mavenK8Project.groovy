@@ -45,9 +45,7 @@ def call(body) {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") { 
                             unstash "docker"
-                            sh """#!/busybox/sh
-                                /kaniko/executor -f `pwd`/${DOCKERFILE_REPO} -c `pwd` --cache=true --destination ${DOCKER_DESTINATION}
-                            """
+                            sh "/kaniko/executor --dockerfile `pwd`/src/main/docker/Dockerfile --context `pwd` --destination ${DOCKER_DESTINATION}"
                         }
                     }
                 }
