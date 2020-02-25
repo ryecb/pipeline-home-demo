@@ -4,7 +4,6 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 def configYaml = """---
-# Pipeline Configuration
 k8_agent_yaml : ${k8_agent_yaml}
 gh_cred : ${gh_cred}
 gh_repo : ${gh_repo}

@@ -27,7 +27,7 @@ def call(configYaml) {
             stage("Print configuration") {
                 steps {
                    writeYaml file: "config.yaml", data: config  
-                   sh "cat ${config.yaml}"
+                   sh "cat config.yaml"
                 }
             }
             stage("Checkout app") {
