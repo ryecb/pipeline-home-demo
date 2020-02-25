@@ -4,6 +4,8 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 writeFile file: "pipeline.yaml", text: """
+---
+# Pipeline Configuration
 k8_agent_yaml : maven_kaniko_pod.yaml
 gh_cred : GH-carlosrodlop
 gh_repo : https://github.com/carlosrodlop/simple-app.git

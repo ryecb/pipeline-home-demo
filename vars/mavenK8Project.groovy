@@ -1,15 +1,10 @@
 // vars/mavenK8Project.groovy
 def call() {
-    // evaluate the body block, and collect configuration into the object
-    // def config = [:]
-    // body.resolveStrategy = Closure.DELEGATE_FIRST
-    // body.delegate = config
-    // body()
-
+    
     Map config = readYaml(file: "${WORKSPACE}/pipeline.yaml")
 
-    K8_AGENT_YAML = "maven_kaniko_pod.yaml"
-    //K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
+    //K8_AGENT_YAML = "maven_kaniko_pod.yaml"
+    K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
 
     pipeline {
         options {
@@ -29,6 +24,11 @@ def call() {
             }
         }
         stages {
+            stage("Print parameters") {
+                steps { 
+                   sh "cat ${WORKSPACE}/pipeline.yaml"
+                }
+            }
             stage("Checkout app") {
                 steps {
                     git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
@@ -46,7 +46,7 @@ def call() {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") { 
                             unstash "docker"
-                            sh "/kaniko/executor --dockerfile `pwd`/src/main/docker/Dockerfile --context `pwd` --destination ${DOCKER_DESTINATION}"
+                            sh "/kaniko/executor --dockerfile `pwd`/to_build/${DOCKERFILE_REPO} --context `pwd` --destination ${DOCKER_DESTINATION}"
                         }
                     }
                 }
