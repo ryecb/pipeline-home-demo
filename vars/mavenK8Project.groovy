@@ -6,8 +6,8 @@ def call(body) {
     body.delegate = config
     body()
 
-    //K8_AGENT_YAML = "maven_kaniko_pod.yaml"
-    K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
+    K8_AGENT_YAML = "maven_kaniko_pod.yaml"
+    //K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
 
     pipeline {
         options {
@@ -37,7 +37,7 @@ def call(body) {
                 steps {
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "target/*.jar", fingerprint: true
-                    stash name: "docker", includes: "src/main/docker/Dockerfile, target/*.jar"
+                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
                 }
             }
             stage("Build and Publish Image app") {
