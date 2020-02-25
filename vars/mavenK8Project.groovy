@@ -26,7 +26,7 @@ def call(configYaml) {
         stages {
             stage("Print parameters") {
                 steps { 
-                   sh "cat ${WORKSPACE}/pipeline.yaml"
+                   echo "${config}"
                 }
             }
             stage("Checkout app") {
