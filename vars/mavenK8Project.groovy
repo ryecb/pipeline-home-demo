@@ -1,7 +1,7 @@
 // vars/mavenK8Project.groovy
-def call() {
-    
-    Map config = readYaml(file: "${WORKSPACE}/pipeline.yaml")
+def call(body) {
+
+    Map config = readYaml(file: "pipelineConfig.yaml")
 
     //K8_AGENT_YAML = "maven_kaniko_pod.yaml"
     K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
