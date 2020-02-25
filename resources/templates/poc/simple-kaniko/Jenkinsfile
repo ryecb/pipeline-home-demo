@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 pipeline {
-  agent none
+  agent any
   stages {
     stage("Create Pipeline Configuration file") {
       steps { 
