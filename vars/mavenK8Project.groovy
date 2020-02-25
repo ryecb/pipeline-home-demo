@@ -30,7 +30,7 @@ def call(body) {
         stages {
             stage("Checkout app") {
                 steps {
-                    git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                    git branch: "${GITHUB_BRANCH}", credentialsId: "${config.gh_cred}" , url: "${GITHUB_REPO}"
                 }
             }
             stage("Build app") {
