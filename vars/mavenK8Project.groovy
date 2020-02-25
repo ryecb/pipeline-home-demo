@@ -6,7 +6,8 @@ def call(body) {
     body.delegate = config
     body()
 
-    K8_AGENT_YAML = "${config.k8_agent_yaml}"
+    //K8_AGENT_YAML = "maven_kaniko_pod.yaml"
+    K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
 
     pipeline {
         options {
