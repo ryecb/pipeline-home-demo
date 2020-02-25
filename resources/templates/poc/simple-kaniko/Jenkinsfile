@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 mavenK8Project {
-    k8_agent_yaml = "maven-kaniko-pod.yaml"
+    k8_agent_yaml = "maven_kaniko_pod.yaml"
     gh_cred = "carlosrodlop-GH"
     gh_repo = "https://github.com/carlosrodlop/simple-app.git"
     gh_branch = "develop"
