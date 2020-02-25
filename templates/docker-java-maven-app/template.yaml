@@ -13,10 +13,9 @@ parameters:
     type: credentials
   - name: gh_repo
     displayName: Github Repository URL 
-    description: Github Repository URL (in https)
+    type: string
   - name: gh_branch
-    displayName: Github Branch
-    description: Github Branch to build    
+    displayName: Github Branch    
     type: string
   - name: docker_registry
     type: string
