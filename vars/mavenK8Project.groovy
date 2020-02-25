@@ -14,7 +14,6 @@ def call(body) {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
         environment {
-            PATH = "/busybox:/kaniko:$PATH"
             GITHUB_CREDENTIALS = "${config.gh_cred}"
             GITHUB_REPO = "${config.gh_repo}"
             GITHUB_BRANCH = "${config.gh_branch}"
