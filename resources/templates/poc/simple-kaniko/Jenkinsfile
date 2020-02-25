@@ -15,6 +15,6 @@ docker_image : simple-app
 docker_tag : 0.1
 """
 
-createConfigFile(pipelineConfigYaml)
+//createConfigFile(pipelineConfigYaml)
 
-mavenK8Project()
+mavenK8Project(pipelineConfigYaml)
