@@ -13,6 +13,9 @@ parameters:
   - name: gh_repo
     displayName: Github Repository URL
     type: string
+  - name: dockerfile_path
+    type: string
+    displayName: Dockerfile build path
   - name: docker_registry
     type: string
     displayName: Docker Registry to upload

@@ -7,7 +7,7 @@ mavenK8Project {
     k8_agent_yaml = "${k8_agent_yaml}"
     gh_cred = "${gh_cred}"
     gh_repo = "${gh_repo}"
-    dockerfile_repo = "${dockerfile_repo}"
+    dockerfile_path = "${dockerfile_path}"
 		docker_registry = "${docker_registry}"
     docker_image = "${docker_image}"
     docker_tag = "${docker_tag}"

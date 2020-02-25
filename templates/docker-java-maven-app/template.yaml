@@ -15,6 +15,10 @@ parameters:
   - name: gh_branch
     displayName: Github Branch    
     type: string
+  - name: dockerfile_path
+    type: string
+    displayName: Dockerfile build path
+  - name: docker_image
   - name: docker_registry
     type: string
     displayName: Docker Registry to upload
