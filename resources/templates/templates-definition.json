@@ -3,7 +3,7 @@
       "scm":{ 
         "$class":"GitSCMSource",
         "remote":"https://github.com/carlosrodlop/my-pipeline-home.git",
-        "credentialsId":"carlosrodlop-GH"
+        "credentialsId":"GH-carlosrodlop"
       },
       "branchOrTag":"master",
       "updateInterval":"2d"
