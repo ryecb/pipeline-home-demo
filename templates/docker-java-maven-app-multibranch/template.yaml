@@ -5,13 +5,13 @@ name: Kubernetes Docker Builder
 description: Implementation of a Kaniko parametrized pipeline
 parameters:
   - name: k8_agent_yaml_m
-    displayName: Kubernetes Pod File Defition 
+    displayName: Kubernetes Pod File Defition
     type: string
   - name: gh_cred_m
     displayName: GitHub Credential
     type: credentials
   - name: gh_repo_m
-    displayName: Github Repository URL 
+    displayName: Github Repository URL
     type: string
   - name: docker_registry_m
     type: string
