@@ -14,7 +14,7 @@ def call(configYaml) {
             GITHUB_CREDENTIALS = "${config.gh_cred}"
             GITHUB_REPO = "${config.gh_repo}"
             GITHUB_BRANCH = "${config.gh_branch}"
-            DOCKERFILE_REPO = "${config.dockerfile_path}"
+            DOCKERFILE_PATH = "${config.dockerfile_path}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
         agent {
@@ -38,8 +38,8 @@ def call(configYaml) {
             stage("Build app") {
                 steps {
                     sh "mvn clean package -Dmaven.test.skip=true"
-                    archiveArtifacts artifacts: "target/*.jar, config.yaml", fingerprint: true
-                    stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
+                    archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
+                    stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
                 }
             }
             stage("Build and Publish Image app") {
@@ -47,8 +47,8 @@ def call(configYaml) {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") { 
                             unstash "docker"
-                            sh "ls -la"
-                            sh "/kaniko/executor --dockerfile ${DOCKERFILE_REPO} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                            sh "ls -lastR"
+                            sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
                         }
                     }
                 }
