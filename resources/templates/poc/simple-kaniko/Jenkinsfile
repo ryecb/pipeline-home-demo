@@ -3,17 +3,27 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/carlosrodlop/my-pipeline-home.git',
    credentialsId: 'carlosrodlop-GH'])
 
-writeFile file: "pipeline.yaml", text: """
----
-# Pipeline Configuration
-k8_agent_yaml : maven_kaniko_pod.yaml
-gh_cred : GH-carlosrodlop
-gh_repo : https://github.com/carlosrodlop/simple-app.git
-gh_branch : develop
-dockerfile_repo : src/main/docker/Dockerfile
-docker_registry : supportbeescloud
-docker_image : simple-app
-docker_tag : 0.1
-"""
+pipeline {
+  agent none
+  stages {
+    stage("Create Pipeline Configuration file") {
+      steps { 
+        writeFile file: "pipeline.yaml", text: """
+        ---
+        # Pipeline Configuration
+        k8_agent_yaml : maven_kaniko_pod.yaml
+        gh_cred : GH-carlosrodlop
+        gh_repo : https://github.com/carlosrodlop/simple-app.git
+        gh_branch : develop
+        dockerfile_repo : src/main/docker/Dockerfile
+        docker_registry : supportbeescloud
+        docker_image : simple-app
+        docker_tag : 0.1
+        """
+      }
+    }
+  }
+}  
+
 
 mavenK8Project()
