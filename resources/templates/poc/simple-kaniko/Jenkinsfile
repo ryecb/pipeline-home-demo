@@ -3,7 +3,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/carlosrodlop/my-pipeline-home.git',
    credentialsId: 'carlosrodlop-GH'])
 
-def pipelineConfigYaml = """---
+def configYaml = """---
 # Pipeline Configuration
 k8_agent_yaml : maven_kaniko_pod.yaml
 gh_cred : GH-carlosrodlop
@@ -17,4 +17,4 @@ docker_tag : 0.1
 
 //createConfigFile(pipelineConfigYaml)
 
-mavenK8Project(pipelineConfigYaml)
+mavenK8Project(configYaml)
