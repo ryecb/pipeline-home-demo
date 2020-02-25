@@ -6,17 +6,18 @@ def call(body) {
     body.delegate = config
     body()
 
+    K8_AGENT_YAML = "${config.k8_agent_yaml}"
+
     pipeline {
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
         environment {
             PATH = "/busybox:/kaniko:$PATH"
-            K8_AGENT_YAML = "${config.k8_agent_yaml}"
             GITHUB_CREDENTIALS = "${config.gh_cred}"
             GITHUB_REPO = "${config.gh_repo}"
             GITHUB_BRANCH = "${config.gh_branch}"
-            DOCKERFILE_REPO = "${config.dockerfile_repo}"
+            DOCKERFILE_REPO = "${config.dockerfile_path}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
         agent {
