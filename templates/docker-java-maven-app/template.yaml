@@ -4,13 +4,19 @@ type: pipeline-template
 name: Kubernetes Docker Builder 
 description: Implementation of a Kaniko parametrized pipeline
 parameters:
+  - name: k8_agent_yaml
+    displayName: Kubernetes Pod File Defition 
+    description: Kubernetes Agentwhich build the entire project
+    type: string
   - name: gh_cred
     displayName: GitHub Credential
-    # description: 
     type: credentials
   - name: gh_repo
-    displayName: Github Repository
-    description: Use http(s) 
+    displayName: Github Repository URL 
+    description: Github Repository URL (in https)
+  - name: gh_branch
+    displayName: Github Branch
+    description: Github Branch to build    
     type: string
   - name: docker_registry
     type: string
@@ -21,9 +27,3 @@ parameters:
   - name: docker_tag
     type: string
     displayName: Docker Image tag
-multibranch:
-  branchSource:
-    github:
-        repoOwner: carlosrodlop
-        repository: ${repoName}
-        credentialsId: ${repoName}
