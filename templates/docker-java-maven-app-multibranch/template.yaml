@@ -6,7 +6,6 @@ description: Implementation of a Kaniko parametrized pipeline
 parameters:
   - name: k8_agent_yaml_m
     displayName: Kubernetes Pod File Defition 
-    description: Kubernetes Agentwhich build the entire project
     type: string
   - name: gh_cred_m
     displayName: GitHub Credential
