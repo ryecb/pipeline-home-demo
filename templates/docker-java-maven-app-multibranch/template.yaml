@@ -1,0 +1,26 @@
+version: 1
+type: pipeline-template
+
+name: Kubernetes Docker Builder Multibranch
+description: Implementation of a Kaniko parametrized pipeline multibranch
+parameters:
+  - name: k8_agent_yaml
+    displayName: Kubernetes Pod File Defition 
+    description: Kubernetes Agentwhich build the entire project
+    type: string
+  - name: gh_cred
+    displayName: GitHub Credential
+    type: credentials
+  - name: gh_repo
+    displayName: Github Repository URL 
+    description: Github Repository URL (in https) 
+    type: string
+  - name: docker_registry
+    type: string
+    displayName: Docker Registry to upload
+  - name: docker_image
+    type: string
+    displayName: Docker Image name
+  - name: docker_tag
+    type: string
+    displayName: Docker Image tag
