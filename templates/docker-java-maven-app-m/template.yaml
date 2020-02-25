@@ -1,6 +1,6 @@
 version: 1
 type: pipeline-template
-
+templateType: MULTIBRANCH
 name: Kubernetes Docker Builder Multibranch
 description: Implementation of a Kaniko parametrized pipeline multibranch
 parameters:
@@ -22,3 +22,13 @@ parameters:
   - name: docker_tag
     type: string
     displayName: Docker Image tag
+multibranch:
+  branchSource:
+    github:
+      repoOwner: carlosrodlop # owner.example
+      repository: ${gh_repo}
+      credentialsId: ${gh_cred}
+  orphanedItemStrategy:
+    daysToKeep: 3
+  scanRepositoryInterval: 2 hours
+  markerFile: pom.xml

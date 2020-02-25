@@ -1,6 +1,5 @@
 version: 1
 type: pipeline-template
-
 name: Kubernetes Docker Builder 
 description: Implementation of a Kaniko parametrized pipeline
 parameters:
