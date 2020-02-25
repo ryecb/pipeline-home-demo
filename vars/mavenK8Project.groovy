@@ -24,9 +24,10 @@ def call(configYaml) {
             }
         }
         stages {
-            stage("Print parameters") {
-                steps { 
-                   echo "${config}"
+            stage("Print configuration") {
+                steps {
+                   writeYaml file: "config.yaml", data: config  
+                   sh "cat ${config.yaml}"
                 }
             }
             stage("Checkout app") {
@@ -37,7 +38,7 @@ def call(configYaml) {
             stage("Build app") {
                 steps {
                     sh "mvn clean package -Dmaven.test.skip=true"
-                    archiveArtifacts artifacts: "target/*.jar", fingerprint: true
+                    archiveArtifacts artifacts: "target/*.jar, config.yaml", fingerprint: true
                     stash name: "docker", includes: "${DOCKERFILE_REPO}, target/*.jar"
                 }
             }
@@ -46,7 +47,8 @@ def call(configYaml) {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") { 
                             unstash "docker"
-                            sh "/kaniko/executor --dockerfile `pwd`/to_build/${DOCKERFILE_REPO} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                            sh "ls -la"
+                            sh "/kaniko/executor --dockerfile ${DOCKERFILE_REPO} --context `pwd` --destination ${DOCKER_DESTINATION}"
                         }
                     }
                 }
