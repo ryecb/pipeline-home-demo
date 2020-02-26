@@ -5,9 +5,10 @@ def call(configYaml) {
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
     GITHUB_BRANCH = "${config.gh_branch}"
+    PROTECTED_BRANCH = "origin/master"
 
     pipeline {
-        agent none
+        agent any
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
@@ -18,7 +19,24 @@ def call(configYaml) {
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
         stages {
-            stage ("Validation adn Checkout") {
+            stage ("Validation") {
+                when {
+                    expression {
+                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        return GIT_BRANCH == "${GITHUB_BRANCH}"
+                    }
+                }
+                steps {
+                    error("Invalid target branch: master")
+                }
+            }
+            stage ("Run") {
+                agent {
+                    kubernetes {
+                        defaultContainer "maven"
+                        yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
+                    }
+                }
                 stages {
                     stage("Print configuration") {
                         steps {
@@ -26,11 +44,11 @@ def call(configYaml) {
                             sh "cat config.yaml"
                         }
                     }
-                    stage("Checkout app") {
+                    stage("Checkout") {
                         when {
                             expression {
                                 GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                                return ! GIT_BRANCH == 'origin/master'
+                                return ! GIT_BRANCH == "${GITHUB_BRANCH}"
                             }
                         }
                         steps {
@@ -45,27 +63,6 @@ def call(configYaml) {
                             }
                         }
                     }
-                    stage ('Build Skipped') {
-                        when {
-                            expression {
-                                GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                                return GIT_BRANCH == 'origin/master'
-                            }
-                        }
-                        steps {
-                            error("Invalid target branch: master")
-                        }
-                    }
-                }
-            }
-            stage ("Build and Publish") {
-                agent {
-                    kubernetes {
-                        defaultContainer "maven"
-                        yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
-                    }
-                }
-                stages {
                     stage("Build app") {
                         steps {
                             sh "mvn clean package -Dmaven.test.skip=true"
