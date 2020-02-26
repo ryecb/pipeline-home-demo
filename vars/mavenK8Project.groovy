@@ -3,8 +3,7 @@ def call(configYaml) {
 
     Map config = readYaml text: "${configYaml}"
 
-    //K8_AGENT_YAML = "maven_kaniko_pod.yaml"
-    K8_AGENT_YAML = "${config.k8_agent_yaml}" // Not working for Template but Shared Pipelines
+    K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
 
     pipeline {
         options {

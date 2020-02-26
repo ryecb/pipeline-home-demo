@@ -11,7 +11,7 @@ parameters:
     displayName: GitHub Credential
     type: credentials
   - name: gh_repo
-    displayName: Github Repository URL
+    displayName: Github Repository URL 
     type: string
   - name: dockerfile_path
     type: string
