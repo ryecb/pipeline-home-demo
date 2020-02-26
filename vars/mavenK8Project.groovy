@@ -5,10 +5,10 @@ def call(configYaml) {
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
     GITHUB_BRANCH = "${config.gh_branch}"
-    PROTECTED_BRANCH = "origin/master"
+    PROTECTED_BRANCH = "master"
 
     pipeline {
-        agent any
+        agent none
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
@@ -21,10 +21,7 @@ def call(configYaml) {
         stages {
             stage ("Validation") {
                 when {
-                    expression {
-                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                        return GIT_BRANCH == "${GITHUB_BRANCH}"
-                    }
+                    branch "${PROTECTED_BRANCH}"
                 }
                 steps {
                     error("Invalid target branch: master")
@@ -40,17 +37,12 @@ def call(configYaml) {
                 stages {
                     stage("Print configuration") {
                         steps {
+                            echo "GIT_BRANCH >>> ${GIT_BRANCH}"
                             writeYaml file: "config.yaml", data: config  
                             sh "cat config.yaml"
                         }
                     }
                     stage("Checkout") {
-                        when {
-                            expression {
-                                GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                                return ! GIT_BRANCH == "${GITHUB_BRANCH}"
-                            }
-                        }
                         steps {
                             script {
                                 if (GITHUB_BRANCH == "") {
