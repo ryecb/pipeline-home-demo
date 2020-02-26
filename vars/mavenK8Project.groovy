@@ -35,7 +35,7 @@ def call(configYaml) {
                         if (GITHUB_BRANCH == "") {
                             echo "Pipeline Multibranch detected"
                             checkout([$class: "GitSCM", 
-                                branches: [[name: ":^(?!origin/master$).*"]],
+                                branches: [[name: "^(?!.*master).*$"]],
                                 browser: [$class: 'GitWeb', repoUrl: "https://github.com/carlosrodlop/simple-app"], 
                                 userRemoteConfigs: [[credentialsId: "${GITHUB_CREDENTIALS}", url: "${GITHUB_REPO}"]]])
                         } else {
