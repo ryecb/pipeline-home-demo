@@ -58,7 +58,7 @@ def call(configYaml) {
                                     }
                                     git_short_commit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
                                     git_currentBranch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
-                                    git_repo = sh(script: "basename '$GITHUB_REPO' ''.${GITHUB_REPO##*.}'", returnStdout: true).trim()
+                                    git_repo = sh(script: "echo `basename '$GITHUB_REPO' ''.${GITHUB_REPO##*.}'`", returnStdout: true).trim()
                                 }
                             }
                         }
