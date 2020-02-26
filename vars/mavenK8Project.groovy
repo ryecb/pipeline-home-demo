@@ -56,7 +56,7 @@ def call(configYaml) {
                                         git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                                     }
                                 sh "ls -lastR"
-                                sh "PWD >>>> $(pwd)"    
+                                echo "PWD >>>> `pwd`"    
                                 git_short_commit = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                                 git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
                                 git_repo = sh(script: 'basename `git rev-parse --show-toplevel`', returnStdout: true).trim()
@@ -67,7 +67,7 @@ def call(configYaml) {
                     stage("Build app") {
                         steps {
                             sh "ls -lastR"
-                            sh "PWD >>>> $(pwd)"
+                            echo "PWD >>>> `pwd`" 
                             sh "mvn clean package -Dmaven.test.skip=true"
                             archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
                             stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
@@ -78,7 +78,7 @@ def call(configYaml) {
                             container(name: "kaniko", shell: "/busybox/sh") {
                                 dir("to_build") {
                                     sh "ls -lastR"
-                                    sh "PWD >>>> $(pwd)" 
+                                    echo "PWD >>>> `pwd`"  
                                     unstash "docker"
                                     sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
                                 }
