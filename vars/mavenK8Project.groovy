@@ -7,6 +7,7 @@ def call(configYaml) {
     GITHUB_BRANCH = "${config.gh_branch}"
 
     pipeline {
+        agent none
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
@@ -16,62 +17,70 @@ def call(configYaml) {
             DOCKERFILE_PATH = "${config.dockerfile_path}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
-        agent {
-            kubernetes {
-                defaultContainer "maven"
-                yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
-            }
-        }
         stages {
-            stage("Print configuration") {
-                steps {
-                   writeYaml file: "config.yaml", data: config  
-                   sh "cat config.yaml"
-                }
-            }
-            stage("Checkout app") {
-                when {
-                    expression {
-                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                        return !GIT_BRANCH == 'origin/master'
+            stage ("Validation adn Checkout") {
+                stages {
+                    stage("Print configuration") {
+                        steps {
+                            writeYaml file: "config.yaml", data: config  
+                            sh "cat config.yaml"
+                        }
                     }
-                }
-                steps {
-                    script {
-                        if (GITHUB_BRANCH == "") {
-                            echo "Pipeline Multibranch detected"
-                            git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
-                        } else {
-                            echo "Pipeline non Multibranch detected"
-                            git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                    stage("Checkout app") {
+                        when {
+                            expression {
+                                GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                                return !GIT_BRANCH == 'origin/master'
+                            }
+                        }
+                        steps {
+                            script {
+                                if (GITHUB_BRANCH == "") {
+                                    echo "Pipeline Multibranch detected"
+                                    git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                } else {
+                                    echo "Pipeline non Multibranch detected"
+                                    git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                }
+                            }
+                        }
+                    }
+                    stage ('Build Skipped') {
+                        when {
+                            expression {
+                                GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                                return GIT_BRANCH == 'origin/master'
+                            }
+                        }
+                        steps {
+                            error("Invalid target branch: master")
                         }
                     }
                 }
             }
-            stage ('Build Skipped') {
-                when {
-                    expression {
-                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                        return GIT_BRANCH == 'origin/master'
+            stage ("Build and Publish") {
+                agent {
+                    kubernetes {
+                        defaultContainer "maven"
+                        yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
                     }
                 }
-                steps {
-                    error("Invalid target branch: master")
-                }
-            }
-            stage("Build app") {
-                steps {
-                    sh "mvn clean package -Dmaven.test.skip=true"
-                    archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
-                    stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
-                }
-            }
-            stage("Build and Publish Image app") {
-                steps {
-                    container(name: "kaniko", shell: "/busybox/sh") {
-                        dir("to_build") { 
-                            unstash "docker"
-                            sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                stages {
+                    stage("Build app") {
+                        steps {
+                            sh "mvn clean package -Dmaven.test.skip=true"
+                            archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
+                            stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
+                        }
+                    }
+                    stage("Build and Publish Image app") {
+                        steps {
+                            container(name: "kaniko", shell: "/busybox/sh") {
+                                dir("to_build") { 
+                                    unstash "docker"
+                                    sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                                }
+                            }
                         }
                     }
                 }
