@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    credentialsId: 'carlosrodlop-GH'])
 
 def configYaml = """---
-k8_agent_yaml : 'maven_kaniko_pod.yaml'
+k8_agent_yaml : 'maven_kaniko_pod _cache.yaml'
 gh_cred : 'GH-carlosrodlop'
 gh_repo : 'https://github.com/carlosrodlop/simple-app.git'
 gh_branch : 'develop'
