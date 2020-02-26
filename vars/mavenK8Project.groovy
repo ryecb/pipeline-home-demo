@@ -31,7 +31,14 @@ def call(configYaml) {
             }
             stage("Checkout app") {
                 steps {
-                    git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                    script {
+                        if (GITHUB_BRANCH == "") {
+                            echo 'Pipeline Multibranch detected'
+                        } else {
+                            echo 'Pipeline non Multibranch detected'
+                            git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                        }
+                    }
                 }
             }
             stage("Build app") {

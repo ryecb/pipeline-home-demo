@@ -3,12 +3,15 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/carlosrodlop/my-pipeline-home.git',
    credentialsId: 'carlosrodlop-GH'])
 
-mavenK8Project {
-    k8_agent_yaml = "${k8_agent_yaml}"
-    gh_cred = "${gh_cred}"
-    gh_repo = "${gh_repo}"
-    dockerfile_path = "${dockerfile_path}"
-		docker_registry = "${docker_registry}"
-    docker_image = "${docker_image}"
-    docker_tag = "${docker_tag}"
-}
+def configYaml = """---
+k8_agent_yaml : '${k8_agent_yaml}'
+gh_cred : '${gh_cred}'
+gh_repo : '${gh_repo}'
+gh_branch : ''
+dockerfile_path : '${dockerfile_path}'
+docker_registry : '${docker_registry}'
+docker_image : '${docker_image}'
+docker_tag : '${docker_tag}'
+"""
+
+mavenK8Project(configYaml)
