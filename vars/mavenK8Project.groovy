@@ -4,6 +4,7 @@ def call(configYaml) {
     Map config = readYaml text: "${configYaml}"
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
+    GITHUB_BRANCH = "${config.gh_branch}"
 
     pipeline {
         options {
@@ -12,7 +13,6 @@ def call(configYaml) {
         environment {
             GITHUB_CREDENTIALS = "${config.gh_cred}"
             GITHUB_REPO = "${config.gh_repo}"
-            GITHUB_BRANCH = "${config.gh_branch}"
             DOCKERFILE_PATH = "${config.dockerfile_path}"
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
@@ -30,19 +30,33 @@ def call(configYaml) {
                 }
             }
             stage("Checkout app") {
+                when {
+                    expression {
+                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        return !GIT_BRANCH == 'origin/master'
+                    }
+                }
                 steps {
                     script {
                         if (GITHUB_BRANCH == "") {
                             echo "Pipeline Multibranch detected"
-                            checkout([$class: "GitSCM", 
-                                branches: [[name: ":^(?!.*master).*"]],
-                                browser: [$class: 'GitWeb', repoUrl: "https://github.com/carlosrodlop/simple-app"], 
-                                userRemoteConfigs: [[credentialsId: "${GITHUB_CREDENTIALS}", url: "${GITHUB_REPO}"]]])
+                            git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                         } else {
                             echo "Pipeline non Multibranch detected"
                             git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                         }
                     }
+                }
+            }
+            stage ('Build Skipped') {
+                when {
+                    expression {
+                        GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        return GIT_BRANCH == 'origin/master'
+                    }
+                }
+                steps {
+                    error("Invalid target branch: master")
                 }
             }
             stage("Build app") {
