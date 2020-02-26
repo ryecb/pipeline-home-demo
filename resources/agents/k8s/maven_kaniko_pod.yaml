@@ -17,8 +17,8 @@ spec:
     - cat
     tty: true
     volumeMounts:
-      - mountPath: /root/.m2/repository
-        name: maven-pv-storage
+      # - mountPath: /root/.m2/repository
+      #   name: maven-pv-storage
       - mountPath: /
         name: shared-data
   - name: kaniko
@@ -41,9 +41,9 @@ spec:
           items:
             - key: .dockerconfigjson
               path: config.json
-  - name: maven-pv-storage
-    persistentVolumeClaim:
-      claimName: maven-pv-claim
-      readOnly: false
+  # - name: maven-pv-storage
+  #   persistentVolumeClaim:
+  #     claimName: maven-pv-claim
+  #     readOnly: false
   - name: shared-data
     emptyDir: {}
