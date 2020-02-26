@@ -44,19 +44,17 @@ def call(configYaml) {
                             GITHUB_REPO = "${config.gh_repo}"
                         }
                         steps {
-                            container(name: "git") {
-                                script {
-                                    if (GITHUB_BRANCH == "") {
-                                        echo "Pipeline Multibranch detected"
-                                        git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
-                                    } else {
-                                        echo "Pipeline non Multibranch detected"
-                                        git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
-                                    }
+                            script {
+                                if (GITHUB_BRANCH == "") {
+                                    echo "Pipeline Multibranch detected"
+                                    git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                } else {
+                                    echo "Pipeline non Multibranch detected"
+                                    git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                }
                                 git_short_commit = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                                 git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
                                 git_repo = sh(script: 'basename `git rev-parse --show-toplevel`', returnStdout: true).trim()
-                                }
                             }
                         }
                     }
