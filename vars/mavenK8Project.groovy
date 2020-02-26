@@ -6,6 +6,9 @@ def call(configYaml) {
     K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
     GITHUB_BRANCH = "${config.gh_branch}"
     PROTECTED_BRANCH = "master"
+    git_short_commit
+    git_currentBranch
+    git_repo
 
     pipeline {
         agent {
@@ -51,6 +54,9 @@ def call(configYaml) {
                                     echo "Pipeline non Multibranch detected"
                                     git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                                 }
+                            git_short_commit = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                            git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+                            git_repo = sh(script: 'basename `git rev-parse --show-toplevel`', returnStdout: true).trim()
                             }
                         }
                     }
