@@ -33,9 +33,13 @@ def call(configYaml) {
                 steps {
                     script {
                         if (GITHUB_BRANCH == "") {
-                            echo 'Pipeline Multibranch detected'
+                            echo "Pipeline Multibranch detected"
+                            checkout([$class: "GitSCM", 
+                                branches: [[name: ":^(?!origin/master$).*"]],
+                                browser: [$class: 'GitWeb', repoUrl: "https://github.com/carlosrodlop/simple-app"], 
+                                userRemoteConfigs: [[credentialsId: "${GITHUB_CREDENTIALS}", url: "${GITHUB_REPO}"]]])
                         } else {
-                            echo 'Pipeline non Multibranch detected'
+                            echo "Pipeline non Multibranch detected"
                             git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                         }
                     }
@@ -53,19 +57,11 @@ def call(configYaml) {
                     container(name: "kaniko", shell: "/busybox/sh") {
                         dir("to_build") { 
                             unstash "docker"
-                            sh "ls -lastR"
                             sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
                         }
                     }
                 }
             }
         }
-        // post {
-        //     failure {
-        //         mail to: "${TEAM_MAIL}",
-        //             subject: "Failed Pipeline to Build Agent: ${currentBuild.fullDisplayName}",
-        //             body: "Something is wrong with ${env.BUILD_URL}"
-        //     }
-        // }
     }
 }

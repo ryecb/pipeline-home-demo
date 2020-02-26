@@ -27,11 +27,9 @@ parameters:
     displayName: Docker Image tag
 multibranch:
   branchSource:
-    github:
-      repoOwner: carlosrodlop # owner.example
-      repository: ${gh_repo}
-      credentialsId: ${gh_cred}
+    git:
+      remote: ${gh_repo}
   orphanedItemStrategy:
     daysToKeep: 3
-  scanRepositoryInterval: 2 hours
-  markerFile: pom.xml
+  # scanRepositoryInterval: 2 hours
+  # markerFile: pom.xml
