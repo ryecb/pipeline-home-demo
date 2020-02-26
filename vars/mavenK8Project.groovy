@@ -37,7 +37,6 @@ def call(configYaml) {
                 stages {
                     stage("Print configuration") {
                         steps {
-                            echo "GIT_BRANCH >>> ${GIT_BRANCH}"
                             writeYaml file: "config.yaml", data: config  
                             sh "cat config.yaml"
                         }
