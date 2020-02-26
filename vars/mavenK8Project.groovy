@@ -20,6 +20,9 @@ def call(configYaml) {
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
+        environment {
+            DOCKERFILE_PATH = "${config.dockerfile_path}"
+        }
         stages {
             // branch only works on a multibranch Pipeline.
             stage ("Skip CD/CI for protected branch") {
@@ -68,11 +71,10 @@ def call(configYaml) {
                         }
                     }
                     stage("Build and Publish Image app") {
-                        environment {
-                            DOCKERFILE_PATH = "${config.dockerfile_path}"
-                            DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}-${git_currentBranch}:${git_short_commit}"
-                        }
-                        steps {
+                       environment {
+                          DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}-${git_currentBranch}:${git_short_commit}"
+                       }
+                       steps {
                             container(name: "kaniko", shell: "/busybox/sh") {
                                 dir("to_build") {
                                     unstash "docker"
