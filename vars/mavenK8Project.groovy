@@ -8,7 +8,12 @@ def call(configYaml) {
     PROTECTED_BRANCH = "master"
 
     pipeline {
-        agent none
+        agent {
+            kubernetes {
+                defaultContainer "maven"
+                yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
+            }
+        }
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
@@ -19,7 +24,8 @@ def call(configYaml) {
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
         stages {
-            stage ("Multibranch: Skip CD/CI for protected branch") {
+            // branch only works on a multibranch Pipeline.
+            stage ("Skip CD/CI for protected branch") {
                 when {
                     branch "${PROTECTED_BRANCH}"
                 }
@@ -28,12 +34,6 @@ def call(configYaml) {
                 }
             }
             stage ("Run") {
-                agent {
-                    kubernetes {
-                        defaultContainer "maven"
-                        yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
-                    }
-                }
                 stages {
                     stage("Print configuration") {
                         steps {
