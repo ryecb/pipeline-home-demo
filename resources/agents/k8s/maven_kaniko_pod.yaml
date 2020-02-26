@@ -46,4 +46,4 @@ spec:
       claimName: maven-pv-claim
       readOnly: false
   - name: shared-data
-      emptyDir: {}
+    emptyDir: {}
