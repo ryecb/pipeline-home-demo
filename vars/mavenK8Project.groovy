@@ -56,9 +56,9 @@ def call(configYaml) {
                                         echo "Pipeline non Multibranch detected"
                                         git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                                     }
-                                    git_short_commit = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                                    git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-                                    git_repo = sh(script: 'basename `git rev-parse --show-toplevel`', returnStdout: true).trim()
+                                    git_short_commit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                                    git_currentBranch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                                    git_repo = sh(script: "basename '$GITHUB_REPO' ''.${GITHUB_REPO##*.}'", returnStdout: true).trim()
                                 }
                             }
                         }
@@ -72,7 +72,7 @@ def call(configYaml) {
                     }
                     stage("Build and Publish Image app") {
                        environment {
-                          DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}-${git_currentBranch}:${git_short_commit}"
+                          DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}_${git_currentBranch}:${git_short_commit}"
                        }
                        steps {
                             container(name: "kaniko", shell: "/busybox/sh") {
