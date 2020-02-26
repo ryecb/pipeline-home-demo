@@ -10,8 +10,6 @@ gh_repo : 'https://github.com/carlosrodlop/simple-app.git'
 gh_branch : 'develop'
 dockerfile_path : 'src/main/docker/Dockerfile'
 docker_registry : 'supportbeescloud'
-docker_image : 'simple-app'
-docker_tag : '0.1'
 """
 
 mavenK8Project(configYaml)

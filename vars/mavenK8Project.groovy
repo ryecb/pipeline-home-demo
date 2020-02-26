@@ -20,12 +20,6 @@ def call(configYaml) {
         options {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
-        environment {
-            GITHUB_CREDENTIALS = "${config.gh_cred}"
-            GITHUB_REPO = "${config.gh_repo}"
-            DOCKERFILE_PATH = "${config.dockerfile_path}"
-            DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
-        }
         stages {
             // branch only works on a multibranch Pipeline.
             stage ("Skip CD/CI for protected branch") {
@@ -45,6 +39,10 @@ def call(configYaml) {
                         }
                     }
                     stage("Checkout") {
+                        environment {
+                            GITHUB_CREDENTIALS = "${config.gh_cred}"
+                            GITHUB_REPO = "${config.gh_repo}"
+                        }
                         steps {
                             container(name: "git") {
                                 script {
@@ -70,6 +68,10 @@ def call(configYaml) {
                         }
                     }
                     stage("Build and Publish Image app") {
+                        environment {
+                            DOCKERFILE_PATH = "${config.dockerfile_path}"
+                            DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}-${git_currentBranch}:${git_short_commit}"
+                        }
                         steps {
                             container(name: "kaniko", shell: "/busybox/sh") {
                                 dir("to_build") {
