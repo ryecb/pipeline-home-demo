@@ -13,7 +13,7 @@ def call(configYaml) {
     pipeline {
         agent {
             kubernetes {
-                defaultContainer "maven"
+                defaultContainer "git-maven"
                 yaml libraryResource("agents/k8s/${K8_AGENT_YAML}")
             }
         }
@@ -55,8 +55,6 @@ def call(configYaml) {
                                         echo "Pipeline non Multibranch detected"
                                         git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                                     }
-                                sh "ls -lastR"
-                                echo "PWD >>>> `pwd`"    
                                 git_short_commit = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                                 git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
                                 git_repo = sh(script: 'basename `git rev-parse --show-toplevel`', returnStdout: true).trim()
@@ -66,8 +64,6 @@ def call(configYaml) {
                     }
                     stage("Build app") {
                         steps {
-                            sh "ls -lastR"
-                            echo "PWD >>>> `pwd`" 
                             sh "mvn clean package -Dmaven.test.skip=true"
                             archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
                             stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
@@ -77,8 +73,6 @@ def call(configYaml) {
                         steps {
                             container(name: "kaniko", shell: "/busybox/sh") {
                                 dir("to_build") {
-                                    sh "ls -lastR"
-                                    echo "PWD >>>> `pwd`"  
                                     unstash "docker"
                                     sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
                                 }

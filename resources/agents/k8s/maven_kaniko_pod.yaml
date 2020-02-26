@@ -3,24 +3,16 @@ metadata:
   name: git, maven and kaniko
 spec:
   containers:
-  - name: git
-    image: alpine/git:v2.24.1
+  - name: git-maven
+    image: alecharp/maven-build-tools:a43bb39
     command:
     - cat
     tty: true
-    volumeMounts:
-      - mountPath: /
-        name: shared-data
-  - name: maven
-    image: maven:3.3.9-jdk-8-alpine
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-      # - mountPath: /root/.m2/repository
+    # volumeMounts:
+      #- mountPath: /root/.m2/repository
       #   name: maven-pv-storage
-      - mountPath: /
-        name: shared-data
+      # - mountPath: /root
+      #   name: shared-data
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
@@ -30,8 +22,8 @@ spec:
     volumeMounts:
       - name: jenkins-docker-cfg
         mountPath: /kaniko/.docker
-      - mountPath: /
-        name: shared-data
+      # - mountPath: /root
+      #   name: shared-data
   volumes:
   - name: jenkins-docker-cfg
     projected:
@@ -45,5 +37,5 @@ spec:
   #   persistentVolumeClaim:
   #     claimName: maven-pv-claim
   #     readOnly: false
-  - name: shared-data
-    emptyDir: {}
+  # - name: shared-data
+  #   emptyDir: {}
