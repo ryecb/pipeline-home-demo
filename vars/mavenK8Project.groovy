@@ -19,7 +19,7 @@ def call(configYaml) {
             DOCKER_DESTINATION = "${config.docker_registry}/${config.docker_image}:${config.docker_tag}"
         }
         stages {
-            stage ("Validation") {
+            stage ("Skip CD/CI for protected branch") {
                 when {
                     branch "${PROTECTED_BRANCH}"
                 }
