@@ -60,7 +60,7 @@ def call(configYaml) {
                     stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
                 }
             }
-            stage("Build and Publish Image app") {
+            stage("Publish Image app") {
                 environment {
                     DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}_${git_currentBranch}:${git_commit}"
                 }
