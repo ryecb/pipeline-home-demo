@@ -12,8 +12,6 @@ gh_repo : '${gh_repo}'
 gh_branch : '${gh_branch}'
 dockerfile_path : '${dockerfile_path}'
 docker_registry : '${docker_registry}'
-docker_image : '${docker_image}'
-docker_tag : '${docker_tag}'
 """
 
 mavenK8Project(configYaml)
