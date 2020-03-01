@@ -1,1 +1,0 @@
-resources/templates/poc/docker-java-maven-app/Jenkinsfile
