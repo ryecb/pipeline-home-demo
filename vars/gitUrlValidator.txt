@@ -1,0 +1,10 @@
+<h2>gitUrlValidator step</h2>
+<h3>Configuration</h3>
+<dl>
+	
+</dl>
+
+<h3>Example:</h3>
+<pre>
+	
+</pre>

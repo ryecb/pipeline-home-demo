@@ -3,6 +3,8 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/carlosrodlop/my-pipeline-home.git',
    credentialsId: 'carlosrodlop-GH'])
 
+gitUrlValidator("${gh_repo}")
+
 def configYaml = """---
 k8_agent_yaml : '${k8_agent_yaml}'
 gh_cred : '${gh_cred}'
