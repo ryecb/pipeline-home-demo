@@ -5,7 +5,7 @@ def call(configYaml) {
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
     GITHUB_BRANCH = "${config.gh_branch}"
-    PROTECTED_BRANCH = "master"
+    PROTECTED_BRANCH = "develop"
     git_short_commit = ""
     git_currentBranch = ""
     git_repo = ""
@@ -30,7 +30,7 @@ def call(configYaml) {
                     branch "${PROTECTED_BRANCH}"
                 }
                 steps {
-                    error("Invalid target branch: master")
+                    error("Invalid target branch: ${PROTECTED_BRANCH}")
                 }
             }
             stage ("Run") {
