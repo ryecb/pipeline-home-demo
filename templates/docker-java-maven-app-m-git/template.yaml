@@ -1,8 +1,8 @@
 version: 1
 type: pipeline-template
 templateType: MULTIBRANCH
-name: Kubernetes Docker Builder Multibranch
-description: Implementation of a Kaniko parametrized pipeline multibranch
+name: Pipeline for Maven Docker Apps in Kubernetes 
+description: Continuos Integration Pipeline to model Maven Docker Apps projects using a Kaniko agent
 parameters:
   - name: k8_agent_yaml
     displayName: Kubernetes Pod File Defition
