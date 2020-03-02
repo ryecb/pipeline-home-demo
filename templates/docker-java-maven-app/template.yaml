@@ -1,7 +1,7 @@
 version: 1
 type: pipeline-template
 name: Pipeline for Maven Docker Apps in Kubernetes 
-description: Continuos Integration Pipeline to model Maven Docker Apps projects using a Kaniko agent  
+description: Continuos Integration pipeline to model Maven Docker Apps projects using a Kaniko agent  
 parameters:
   - name: k8_agent_yaml
     displayName: Kubernetes Pod File Defition
