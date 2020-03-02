@@ -3,7 +3,7 @@ def call(configYaml) {
 
     Map config = readYaml text: "${configYaml}"
 
-    K8_AGENT_YAML = "${config.k8_agent_yaml}" //It does not work if it is moved to the environment section
+    K8_AGENT_YAML = "${config.k8_agent_yaml}"
     GITHUB_BRANCH = "${config.gh_branch}"
     // See https://github.com/jenkinsci/git-plugin#environment-variables
     git_commit = ""
@@ -24,7 +24,6 @@ def call(configYaml) {
             DOCKERFILE_PATH = "${config.dockerfile_path}"
         }
         stages {
-            // branch only works on a multibranch Pipeline.
             stage("Print configuration") {
                 steps {
                     writeYaml file: "config.yaml", data: config  
