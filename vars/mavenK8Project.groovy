@@ -53,14 +53,20 @@ def call(configYaml) {
                     }
                 }
             }
-            stage("Build app") {
+            stage("Build") {
                 steps {
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
                     stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
                 }
             }
-            stage("Publish Image app") {
+            stage("Test") {
+                steps {
+                    sh 'mvn clean test'
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                }
+            }
+            stage("Publish in Registry") {
                 environment {
                     DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}_${git_currentBranch}:${git_commit}"
                 }
