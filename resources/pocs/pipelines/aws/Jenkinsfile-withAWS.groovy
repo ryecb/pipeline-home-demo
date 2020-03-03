@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('hello AWS') {
             steps {
-                withAWS(credentials: 'support_vault_aws') { // It requires 'support_vault_aws'
+                withAWS(credentials: 'support_vault_aws') { // Pre-requisite: 'support_vault_aws'
                     sh "aws sts get-caller-identity"
                 }
             }
