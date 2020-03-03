@@ -31,5 +31,5 @@ spec:
               path: config.json
   - name: maven-pv-storage 
     persistentVolumeClaim:
-      claimName: maven-pv-claim # this pvc (maven_cache_pvc.yaml) needs to be created before running the agent
+      claimName: maven-pv-claim # this pvc (pvc/maven_cache_pvc.yaml) needs to be created before running the agent
       readOnly: false
