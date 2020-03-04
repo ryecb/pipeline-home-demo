@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('hello AWS') {
             steps {
-                withAWS(credentials: 'support_vault_aws') { // Pre-requisite: 'support_vault_aws'
+                withAWS(profile:'cloudbees-support-admin') { // Pre-requisite: it must be defined in '~/.aws/config'
                     echo "Trying 'aws sts get-caller-identity'"
                     sh "aws sts get-caller-identity"
                     echo "Trying 'awsIdentity()'"
