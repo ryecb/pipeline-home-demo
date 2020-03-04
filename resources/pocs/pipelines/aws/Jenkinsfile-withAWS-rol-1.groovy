@@ -10,7 +10,9 @@ pipeline {
                     echo "Trying 'aws sts get-caller-identity'"
                     sh "aws sts get-caller-identity"
                     echo "Trying 'awsIdentity()'"
-                    def identity = awsIdentity()
+                    script {
+                        def identity = awsIdentity()
+                    }
                 }
             }
         }
