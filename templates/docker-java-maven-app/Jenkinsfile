@@ -11,6 +11,7 @@ g_cred : '${g_cred}'
 g_repo : '${g_repo}'
 g_branch : '${g_branch}'
 d_path : '${d_path}'
+d_latest : '${d_latest}'
 d_registry : '${d_registry}'
 """
 
