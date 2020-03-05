@@ -12,7 +12,7 @@ def call(configYaml) {
     pipeline {
         agent {
             kubernetes {
-                defaultContainer "git-maven"
+                defaultContainer "maven"
                 yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
             }
         }
@@ -36,28 +36,26 @@ def call(configYaml) {
                     DOCKER_IMAGE_LATEST = "${config.d_latest}"
                 }
                 steps {
-                    container(name: "git-maven"){
-                        script {
-                            if (GIT_PARAM_BRANCH == "") {
-                                echo "Pipeline Multibranch detected"
-                                checkout([$class: 'GitSCM', branches: [[name: '**']], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
-                                //git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
-                                git_currentBranch = "${GIT_BRANCH}"
-                            } else {
-                                echo "Pipeline non Multibranch detected"
-                                git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
-                                git_currentBranch = "${GIT_PARAM_BRANCH}"
-                            }
-                            git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
-                            if (DOCKER_IMAGE_LATEST == "false") {
-                                echo "Tagging image with commit"
-                                git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
-                            } else {
-                                echo "Tagging image as latest"
-                                git_commit = "latest"
-                            }
+                    script {
+                        if (GIT_PARAM_BRANCH == "") {
+                            echo "Pipeline Multibranch detected"
+                            checkout([$class: 'GitSCM', branches: [[name: '**']], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
+                            git_currentBranch = "${GIT_BRANCH}"
+                        } else {
+                            echo "Pipeline non Multibranch detected"
+                            git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
+                            git_currentBranch = "${GIT_PARAM_BRANCH}"
+                        }
+                        git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
+                        if (DOCKER_IMAGE_LATEST == "false") {
+                            echo "Tagging image with commit"
+                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
+                        } else {
+                            echo "Tagging image as latest"
+                            git_commit = "latest"
                         }
                     }
+
                 }
             }
             stage("Build") {

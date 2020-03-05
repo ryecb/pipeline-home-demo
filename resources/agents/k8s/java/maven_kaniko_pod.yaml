@@ -3,7 +3,7 @@ metadata:
   name: git, maven and kaniko
 spec:
   containers:
-  - name: git-maven
+  - name: maven
     image: maven:3.6.3-jdk-8
     command:
     - bash
