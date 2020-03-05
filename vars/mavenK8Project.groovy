@@ -4,7 +4,7 @@ def call(configYaml) {
     Map config = readYaml text: "${configYaml}"
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}"
-    GIT_PARAM_BRANCH = "${config.g_branch}"
+    GIT_PARAM_BRANCH = "${config.g_branch.trim()}"
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
@@ -20,7 +20,7 @@ def call(configYaml) {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
         environment {
-            DOCKERFILE_PATH = "${config.d_path}"
+            DOCKERFILE_PATH = "${config.d_path.trim()}"
         }
         stages {
             stage("Print configuration") {
@@ -32,13 +32,13 @@ def call(configYaml) {
             stage("Checkout") {
                 environment {
                     GIT_PARAM_CREDENTIALS = "${config.g_cred}"
-                    GIT_PARAM_REPO = "${config.g_repo}"
+                    GIT_PARAM_REPO = "${config.g_repo.trim()}"
                     DOCKER_IMAGE_LATEST = "${config.d_latest}"
                 }
                 steps {
                     container(name: "git-maven"){
                         script {
-                            if (GIT_PARAM_BRANCH?.trim()) {
+                            if (GIT_PARAM_BRANCH == "") {
                                 echo "Pipeline Multibranch detected"
                                 git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             } else {
@@ -75,7 +75,7 @@ def call(configYaml) {
             }
             stage("Publish in Registry") {
                 environment {
-                    DOCKER_DESTINATION = "${config.d_registry}/${git_repo}_${git_currentBranch}:${git_commit}"
+                    DOCKER_DESTINATION = "${config.d_registry.trim()}/${git_repo}_${git_currentBranch}:${git_commit}"
                 }
                 steps {
                     container(name: "kaniko", shell: "/busybox/sh") {
