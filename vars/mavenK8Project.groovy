@@ -46,9 +46,8 @@ def call(configYaml) {
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
-                            git_currentBranch = "${GIT_BRANCH}"
+                            git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
                             git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
-                            echo "DOCKER_IMAGE_LATEST : ${DOCKER_IMAGE_LATEST}" 
                             if (DOCKER_IMAGE_LATEST == "false") {
                                 echo "Tagging image with commit"
                                 git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
