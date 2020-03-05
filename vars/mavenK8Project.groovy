@@ -33,6 +33,7 @@ def call(configYaml) {
                 environment {
                     GIT_PARAM_CREDENTIALS = "${config.g_cred}"
                     GIT_PARAM_REPO = "${config.g_repo}"
+                    DOCKER_IMAGE_LATEST = "${d_latest}"
                 }
                 steps {
                     container(name: "git-maven"){
@@ -45,7 +46,13 @@ def call(configYaml) {
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
-                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
+                            if (! DOCKER_IMAGE_LATEST) {
+                                echo "Tagging image with commit"
+                                git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
+                            } else {
+                                echo "Tagging image as latest"
+                                git_commit = "latest"
+                            } 
                             git_currentBranch = "${GIT_BRANCH}"
                             git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                         }

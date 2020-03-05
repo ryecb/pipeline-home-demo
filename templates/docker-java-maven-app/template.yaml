@@ -19,6 +19,10 @@ parameters:
   - name: d_path
     type: string
     displayName: "Dockerfile build path"
+  - name: d_latest
+    type: boolean
+    displayName: "Tag as latest?"
+    defaultValue: false
   - name: d_registry
     type: string
     displayName: "Docker Registry to upload"
