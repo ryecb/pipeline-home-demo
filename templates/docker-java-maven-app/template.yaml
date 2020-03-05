@@ -15,9 +15,9 @@ parameters:
   - name: g_branch
     displayName: Git Branch    
     type: string
-  - name: dockerfile_path
+  - name: d_path
     type: string
     displayName: Dockerfile build path
-  - name: docker_registry
+  - name: d_registry
     type: string
     displayName: Docker Registry to upload

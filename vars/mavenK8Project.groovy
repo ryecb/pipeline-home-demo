@@ -20,7 +20,7 @@ def call(configYaml) {
             buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         }
         environment {
-            DOCKERFILE_PATH = "${config.dockerfile_path}"
+            DOCKERFILE_PATH = "${config.d_path}"
         }
         stages {
             stage("Print configuration") {
@@ -67,7 +67,7 @@ def call(configYaml) {
             }
             stage("Publish in Registry") {
                 environment {
-                    DOCKER_DESTINATION = "${config.docker_registry}/${git_repo}_${git_currentBranch}:${git_commit}"
+                    DOCKER_DESTINATION = "${config.d_registry}/${git_repo}_${git_currentBranch}:${git_commit}"
                 }
                 steps {
                     container(name: "kaniko", shell: "/busybox/sh") {

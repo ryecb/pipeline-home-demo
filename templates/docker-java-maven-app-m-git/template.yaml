@@ -13,10 +13,10 @@ parameters:
   - name: g_repo
     displayName: Github Repository URL 
     type: string
-  - name: dockerfile_path
+  - name: d_path
     type: string
     displayName: Dockerfile build path
-  - name: docker_registry
+  - name: d_registry
     type: string
     displayName: Docker Registry to upload
 multibranch:

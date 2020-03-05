@@ -3,15 +3,15 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
    credentialsId: 'carlosrodlop-GH'])
 
-gitUrlValidator("${gh_repo}")
+gitUrlValidator("${g_repo}")
 
 def configYaml = """---
 k8_agent_yaml : '${k8_agent_yaml}'
 g_cred : '${g_cred}'
 g_repo : '${g_repo}'
 g_branch : ''
-dockerfile_path : '${dockerfile_path}'
-docker_registry : '${docker_registry}'
+d_path : '${d_path}'
+d_registry : '${d_registry}'
 """
 
 mavenK8Project(configYaml)

@@ -5,11 +5,11 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
 
 def configYaml = """---
 k8_agent_yaml : 'maven_kaniko_pod_cache.yaml'
-gh_cred : 'GH-carlosrodlop'
-gh_repo : 'https://github.com/jenkins-demo/simple-app'
-gh_branch : 'develop'
-dockerfile_path : 'src/main/docker/Dockerfile'
-docker_registry : 'supportbeescloud'
+g_cred : 'GH-carlosrodlop'
+g_repo : 'https://github.com/jenkins-demo/simple-app'
+g_branch : 'develop'
+d_path : 'src/main/docker/Dockerfile'
+d_registry : 'supportbeescloud'
 """
 
 mavenK8Project(configYaml)
