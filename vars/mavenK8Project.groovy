@@ -41,7 +41,7 @@ def call(configYaml) {
                             if (GIT_PARAM_BRANCH == "") {
                                 echo "Pipeline Multibranch detected"
                                 git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
-                                git_currentBranch = "${GIT_LOCAL_BRANCH}"
+                                git_currentBranch = "${GIT_BRANCH}"
                             } else {
                                 echo "Pipeline non Multibranch detected"
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
