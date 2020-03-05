@@ -9,7 +9,7 @@ g_cred : 'GH-carlosrodlop'
 g_repo : 'https://github.com/jenkins-demo/simple-app'
 g_branch : 'develop'
 d_path : 'src/main/docker/Dockerfile'
-d_latest 'false'
+d_latest : 'false'
 d_registry : 'supportbeescloud'
 """
 
