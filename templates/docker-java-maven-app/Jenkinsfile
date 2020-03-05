@@ -7,9 +7,9 @@ gitUrlValidator("${gh_repo}")
 
 def configYaml = """---
 k8_agent_yaml : '${k8_agent_yaml}'
-gh_cred : '${g_cred}'
-gh_repo : '${g_repo}'
-gh_branch : '${g_branch}'
+g_cred : '${g_cred}'
+g_repo : '${g_repo}'
+g_branch : '${g_branch}'
 dockerfile_path : '${dockerfile_path}'
 docker_registry : '${docker_registry}'
 """

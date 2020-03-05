@@ -22,5 +22,5 @@ parameters:
 multibranch:
   branchSource:
     git:
-      remote: ${gh_repo}
-      credentialsId: ${gh_cred}
+      remote: ${g_repo}
+      credentialsId: ${g_cred}
