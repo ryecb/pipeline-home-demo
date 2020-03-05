@@ -41,12 +41,12 @@ def call(configYaml) {
                             if (GIT_PARAM_BRANCH == "") {
                                 echo "Pipeline Multibranch detected"
                                 git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
+                                git_currentBranch = "${GIT_LOCAL_BRANCH}"
                             } else {
                                 echo "Pipeline non Multibranch detected"
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
+                                git_currentBranch = "${GIT_PARAM_BRANCH}"
                             }
-                            // See https://github.com/jenkinsci/git-plugin#environment-variables
-                            git_currentBranch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
                             git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                             if (DOCKER_IMAGE_LATEST == "false") {
                                 echo "Tagging image with commit"
