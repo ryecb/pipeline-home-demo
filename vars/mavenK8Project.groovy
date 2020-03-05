@@ -46,6 +46,8 @@ def call(configYaml) {
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
+                            git_currentBranch = "${GIT_BRANCH}"
+                            git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                             echo "DOCKER_IMAGE_LATEST : ${DOCKER_IMAGE_LATEST}" 
                             if (! DOCKER_IMAGE_LATEST) {
                                 echo "Tagging image with commit"
@@ -54,8 +56,6 @@ def call(configYaml) {
                                 echo "Tagging image as latest"
                                 git_commit = "latest"
                             } 
-                            git_currentBranch = "${GIT_BRANCH}"
-                            git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                         }
                     }
                 }

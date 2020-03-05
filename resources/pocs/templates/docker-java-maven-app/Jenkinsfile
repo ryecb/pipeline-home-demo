@@ -6,7 +6,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
 def configYaml = """---
 k8_agent_yaml : 'maven_kaniko_pod_cache.yaml'
 g_cred : 'GH-carlosrodlop'
-g_repo : 'https://github.com/jenkins-demo/simple-app'
+g_repo : 'https://github.com/jenkins-demo/simple-app.git'
 g_branch : 'develop'
 d_path : 'src/main/docker/Dockerfile'
 d_latest : 'false'
