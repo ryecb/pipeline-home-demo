@@ -40,7 +40,8 @@ def call(configYaml) {
                         script {
                             if (GIT_PARAM_BRANCH == "") {
                                 echo "Pipeline Multibranch detected"
-                                git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
+                                checkout([$class: 'GitSCM', branches: [[name: '**']], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
+                                //git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                                 git_currentBranch = "${GIT_BRANCH}"
                             } else {
                                 echo "Pipeline non Multibranch detected"
@@ -61,7 +62,7 @@ def call(configYaml) {
             }
             stage("Build") {
                 steps {
-                    sh "ls -lastR"
+                    sh "ls -last"
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
                     stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
