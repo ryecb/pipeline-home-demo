@@ -33,7 +33,7 @@ def call(configYaml) {
                 environment {
                     GIT_PARAM_CREDENTIALS = "${config.g_cred}"
                     GIT_PARAM_REPO = "${config.g_repo}"
-                    DOCKER_IMAGE_LATEST = ${config.d_latest}
+                    DOCKER_IMAGE_LATEST = "${config.d_latest}"
                 }
                 steps {
                     container(name: "git-maven"){
@@ -49,7 +49,7 @@ def call(configYaml) {
                             git_currentBranch = "${GIT_BRANCH}"
                             git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                             echo "DOCKER_IMAGE_LATEST : ${DOCKER_IMAGE_LATEST}" 
-                            if (!DOCKER_IMAGE_LATEST) {
+                            if (DOCKER_IMAGE_LATEST == "false") {
                                 echo "Tagging image with commit"
                                 git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
                             } else {
