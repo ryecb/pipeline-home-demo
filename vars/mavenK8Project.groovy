@@ -45,7 +45,7 @@ def call(configYaml) {
                                 git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
-                            git_commit = "${GIT_COMMIT}"
+                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()  
                             git_currentBranch = "${GIT_BRANCH}"
                             git_repo = sh(script: "basename '${GITHUB_REPO}' .git", returnStdout: true).trim()
                         }
