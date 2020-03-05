@@ -4,9 +4,9 @@ metadata:
 spec:
   containers:
   - name: git-maven
-    image: alecharp/maven-build-tools:a43bb39
+    image: maven:3.6.3-jdk-8
     command:
-    - cat
+    - bash
     tty: true
     volumeMounts:
       - mountPath: /root/.m2/repository
