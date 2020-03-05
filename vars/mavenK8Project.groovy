@@ -33,12 +33,12 @@ def call(configYaml) {
                 environment {
                     GIT_PARAM_CREDENTIALS = "${config.g_cred}"
                     GIT_PARAM_REPO = "${config.g_repo}"
-                    DOCKER_IMAGE_LATEST = "${config.d_latest}"
+                    DOCKER_IMAGE_LATEST = config.d_latest
                 }
                 steps {
                     container(name: "git-maven"){
                         script {
-                            if (GIT_PARAM_BRANCH == "") {
+                            if (GIT_PARAM_BRANCH?.trim()) {
                                 echo "Pipeline Multibranch detected"
                                 git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             } else {
