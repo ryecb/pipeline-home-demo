@@ -4,7 +4,8 @@ name: Pipeline for Maven Docker Apps in Kubernetes
 description: Continuos Integration pipeline to model Maven Docker Apps projects using a Kaniko agent  
 parameters:
   - name: k8_agent_yaml
-    displayName: Kubernetes Pod File Defition
+    displayName: Kubernetes Pod File Definition
+    allowedValues: ['maven_kaniko_pod_cache.yaml', 'maven_kaniko_pod.yaml']
     type: string
   - name: g_cred
     displayName: Git Credential
@@ -17,7 +18,9 @@ parameters:
     type: string
   - name: d_path
     type: string
+    description: This template relies on Dockerfile to create an image from the build of the project
     displayName: Dockerfile build path
   - name: d_registry
     type: string
     displayName: Docker Registry to upload
+    defaultValue: supportbeescloud

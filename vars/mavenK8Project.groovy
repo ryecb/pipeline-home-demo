@@ -45,7 +45,7 @@ def call(configYaml) {
                                 git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
-                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()  
+                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
                             git_currentBranch = "${GIT_BRANCH}"
                             git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                         }
