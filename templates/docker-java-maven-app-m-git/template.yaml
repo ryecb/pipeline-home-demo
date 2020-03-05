@@ -1,27 +1,26 @@
 version: 1
 type: pipeline-template
 templateType: MULTIBRANCH
-name: Multibranch Pipeline for Maven Docker Apps in Kubernetes 
-description: Continuos Integration pipeline multibranch to model Maven Docker Apps projects using a Kaniko agent
+name: "Multibranch Pipeline for Maven Docker Apps in Kubernetes" 
+description: "Continuos Integration pipeline multibranch to model Maven Docker Apps projects using a Kaniko agent"
 parameters:
   - name: k8_agent_yaml
-    displayName: Kubernetes Pod File Definition
-    allowedValues: ['maven_kaniko_pod_cache.yaml', 'maven_kaniko_pod.yaml']
+    displayName: "Kubernetes Pod File Definition"
+    allowedValues: ["maven_kaniko_pod_cache.yaml", "maven_kaniko_pod.yaml"]
     type: string
   - name: g_cred
-    displayName: Git Credential
+    displayName: "Git Credential"
     type: credentials
   - name: g_repo
-    displayName: Git Repository URL 
+    displayName: "Git Repository URL" 
     type: string
   - name: d_path
     type: string
-    description: This template relies on Dockerfile to create an image from the build of the project
-    displayName: Dockerfile build path
+    displayName: "Dockerfile build path"
   - name: d_registry
     type: string
-    displayName: Docker Registry to upload
-    defaultValue: supportbeescloud
+    displayName: "Docker Registry to upload"
+    defaultValue: "supportbeescloud"
 multibranch:
   branchSource:
     git:
