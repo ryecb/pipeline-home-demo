@@ -79,10 +79,8 @@ def call(configYaml) {
                 }
                 steps {
                     container(name: "kaniko", shell: "/busybox/sh") {
-                        dir("to_build") {
-                            unstash "docker"
-                            sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
-                        }
+                        unstash "docker"
+                        sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
                     }
                 }
             }
