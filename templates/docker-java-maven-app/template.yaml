@@ -1,5 +1,5 @@
 version: 1
-type: "pipeline-template"
+type: pipeline-template
 name: "Pipeline for Maven Docker Apps in Kubernetes"
 description: "Continuos Integration pipeline to model Maven Docker Apps projects using a Kaniko agent"  
 parameters:

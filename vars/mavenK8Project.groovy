@@ -13,7 +13,7 @@ def call(configYaml) {
         agent {
             kubernetes {
                 defaultContainer "git-maven"
-                yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}")
+                yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
             }
         }
         options {
