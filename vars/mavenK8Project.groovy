@@ -5,7 +5,6 @@ def call(configYaml) {
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}"
     GITHUB_BRANCH = "${config.gh_branch}"
-    // See https://github.com/jenkinsci/git-plugin#environment-variables
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
@@ -45,8 +44,9 @@ def call(configYaml) {
                                 echo "Pipeline non Multibranch detected"
                                 git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
                             }
+                            // See https://github.com/jenkinsci/git-plugin#environment-variables
                             git_commit = "${GIT_COMMIT}"
-                            git_currentBranch = "${GIT_LOCAL_BRANCH}"
+                            git_currentBranch = "${GIT_BRANCH}"
                             git_repo = sh(script: "basename '${GITHUB_REPO}' .git", returnStdout: true).trim()
                         }
                     }
