@@ -4,7 +4,7 @@ def call(configYaml) {
     Map config = readYaml text: "${configYaml}"
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}"
-    GITHUB_BRANCH = "${config.gh_branch}"
+    GIT_PARAM_BRANCH = "${config.g_branch}"
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
@@ -31,23 +31,23 @@ def call(configYaml) {
             }
             stage("Checkout") {
                 environment {
-                    GITHUB_CREDENTIALS = "${config.gh_cred}"
-                    GITHUB_REPO = "${config.gh_repo}"
+                    GIT_PARAM_CREDENTIALS = "${config.g_cred}"
+                    GIT_PARAM_REPO = "${config.g_repo}"
                 }
                 steps {
                     container(name: "git-maven"){
                         script {
-                            if (GITHUB_BRANCH == "") {
+                            if (GIT_PARAM_BRANCH == "") {
                                 echo "Pipeline Multibranch detected"
-                                git credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                git credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             } else {
                                 echo "Pipeline non Multibranch detected"
-                                git branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}" , url: "${GITHUB_REPO}"
+                                git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
                             }
                             // See https://github.com/jenkinsci/git-plugin#environment-variables
                             git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()  
                             git_currentBranch = "${GIT_BRANCH}"
-                            git_repo = sh(script: "basename '${GITHUB_REPO}' .git", returnStdout: true).trim()
+                            git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                         }
                     }
                 }

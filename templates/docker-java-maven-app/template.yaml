@@ -6,14 +6,14 @@ parameters:
   - name: k8_agent_yaml
     displayName: Kubernetes Pod File Defition
     type: string
-  - name: gh_cred
-    displayName: GitHub Credential
+  - name: g_cred
+    displayName: Git Credential
     type: credentials
-  - name: gh_repo
-    displayName: Github Repository URL 
+  - name: g_repo
+    displayName: Git Repository URL 
     type: string
-  - name: gh_branch
-    displayName: Github Branch    
+  - name: g_branch
+    displayName: Git Branch    
     type: string
   - name: dockerfile_path
     type: string
