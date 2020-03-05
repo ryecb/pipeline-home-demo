@@ -54,13 +54,14 @@ def call(configYaml) {
                             } else {
                                 echo "Tagging image as latest"
                                 git_commit = "latest"
-                            } 
+                            }
                         }
                     }
                 }
             }
             stage("Build") {
                 steps {
+                    sh "ls -lastR"
                     sh "mvn clean package -Dmaven.test.skip=true"
                     archiveArtifacts artifacts: "config.yaml, target/*.jar", fingerprint: true
                     stash name: "docker", includes: "config.yaml, target/*.jar, ${DOCKERFILE_PATH}"
