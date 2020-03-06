@@ -77,8 +77,10 @@ def call(configYaml) {
                 }
                 steps {
                     container(name: "kaniko", shell: "/busybox/sh") {
-                        unstash "docker"
-                        sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                        dir ("unstash"){ // To avoid java.nio.file.AccessDeniedException ... example-app.jar
+                            unstash "docker"
+                            sh "/kaniko/executor --dockerfile `pwd`/${DOCKERFILE_PATH} --context `pwd` --destination ${DOCKER_DESTINATION}"
+                        }
                     }
                 }
             }
