@@ -25,14 +25,8 @@ parameters:
     type: string
     displayName: "Docker Registry to upload"
     defaultValue: "supportbeescloud"
-# multibranch:
-#   branchSource:
-#     git:
-#       remote: ${g_repo}
-#       credentialsId: ${g_cred}
 multibranch:
   branchSource:
-    github:
-      repoOwner: cloudbees-oss
-      repository: ${g_repo}
+    git:
+      remote: ${g_repo}
       credentialsId: ${g_cred}
