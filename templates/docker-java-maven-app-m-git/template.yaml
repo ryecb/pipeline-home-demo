@@ -30,3 +30,5 @@ multibranch:
     git:
       remote: ${g_repo}
       credentialsId: ${g_cred}
+    markerFile: pom.xml
+    scanRepositoryInterval: 2 hours
