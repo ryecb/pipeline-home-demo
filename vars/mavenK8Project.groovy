@@ -49,7 +49,7 @@ def call(configYaml) {
                         git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                         if (DOCKER_IMAGE_LATEST == "false") {
                             echo "Tagging image with commit"
-                            git_commit = sh(script: "git rev-parse --short=4 ${GIT_COMMIT}", returnStdout: true).trim()
+                            git_commit = sh(script: "git rev-parse --short=5 ${GIT_COMMIT}", returnStdout: true).trim()
                         } else {
                             echo "Tagging image as latest"
                             git_commit = "latest"
