@@ -39,8 +39,8 @@ def call(configYaml) {
                     script {
                         if (GIT_PARAM_BRANCH == "") {
                             echo "Pipeline Multibranch detected"
-                            checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
-                            git_currentBranch = "${GIT_BRANCH}"
+                            checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
+                            git_currentBranch = "${BRANCH_NAME}"
                         } else {
                             echo "Pipeline non Multibranch detected"
                             git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
