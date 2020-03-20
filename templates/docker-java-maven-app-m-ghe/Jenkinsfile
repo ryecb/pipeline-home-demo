@@ -1,0 +1,18 @@
+library identifier: 'my-shared-libraries@master', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
+   credentialsId: 'carlosrodlop-GH'])
+
+gitUrlValidator("${g_repo}", "support-team", "https://github.beescloud.com/api/v3")
+
+def configYaml = """---
+k8_agent_yaml : '${k8_agent_yaml}'
+g_cred : '${g_cred}'
+g_repo : '${g_repo}'
+g_branch : ''
+d_path : '${d_path}'
+d_latest : ${d_latest}
+d_registry : '${d_registry}'
+"""
+
+mavenK8Project(configYaml)

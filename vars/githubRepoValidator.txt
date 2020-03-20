@@ -1,0 +1,19 @@
+<h2>githubRepoValidator step</h2>
+<h3>Configuration</h3>
+<dl>
+	<dt>repo</dt>
+	<dd>Repository name</dd>
+</dl>
+<dl>
+	<dt>org</dt>
+	<dd>Organization</dd>
+</dl>
+<dl>
+	<dt>apiUrl</dt>
+	<dd>Git URL to validate</dd>
+</dl>
+
+<h3>Example:</h3>
+<pre>
+	gitUrlValidator("example-repo","example-team","https://github.com/example-org/example-repo.git)
+</pre>
