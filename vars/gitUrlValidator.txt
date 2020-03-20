@@ -1,7 +1,7 @@
 <h2>gitUrlValidator step</h2>
 <h3>Configuration</h3>
 <dl>
-	<dt>gh_repo</dt>
+	<dt>url</dt>
 	<dd>Git URL to validate</dd>
 </dl>
 
