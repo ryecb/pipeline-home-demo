@@ -1,6 +1,12 @@
 // vars/gitUrlValidator.groovy
-def call(url) {
-  if (! url.startsWith("https") || ! url.endsWith (".git")){
-    error("The git url must start with 'https' and ends with '.git'. Example: https://github.com/example-org/example-repo.git")
+def call(paramName, paramValue, org, apiUri) {
+  if (!org || !apiUri){ 
+    if (! paramValue.startsWith("https") || ! paramValue.endsWith (".git")){
+      error("${paramName} is expecting a git url endpoint. Example: https://scm.example.com/example-org/example-repo.git")
+    }
+  } else {
+    if ( paramValue.startsWith("https") || paramValue.endsWith (".git")){
+      error("${paramName} is expecting repo name from the ${org} in the ${apiUri}")
+    }
   }
 }

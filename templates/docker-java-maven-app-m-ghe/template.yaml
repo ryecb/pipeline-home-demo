@@ -8,10 +8,10 @@ parameters:
     displayName: "Kubernetes Agent yaml"
     allowedValues: ["maven_kaniko_pod_cache", "maven_kaniko_pod"]
     type: string
-  - name: gh_cred
+  - name: ghe_cred
     displayName: "GitHub Credential"
     type: credentials
-  - name: gh_repo
+  - name: ghe_repo
     displayName: "GitHub Repository Name" 
     type: string
   - name: d_path
@@ -23,14 +23,14 @@ parameters:
     defaultValue: false
   - name: d_registry
     type: string
-    displayName: "Docker Registry to upload"
+    displayName: "Docker Registry"
     defaultValue: "supportbeescloud"
 multibranch:
   branchSource:
     github:
       apiUri: "https://github.beescloud.com/api/v3"
       repoOwner: "support-team"
-      repository: "${gh_repo}"
-      credentialsId: "${gh_cred}"
+      repository: "${ghe_repo}"
+      credentialsId: "${ghe_cred}"
   markerFile: pom.xml
   scanRepositoryInterval: 2 hours

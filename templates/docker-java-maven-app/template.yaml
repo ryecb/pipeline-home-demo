@@ -10,11 +10,11 @@ parameters:
   - name: g_cred
     displayName: "Git Credential"
     type: credentials
-  - name: g_repo
-    displayName: "Git Repository URL" 
+  - name: g_url
+    displayName: "Git Repository URL"
     type: string
   - name: g_branch
-    displayName: "Git Branch"    
+    displayName: "Git Branch"
     type: string
   - name: d_path
     type: string
@@ -25,5 +25,5 @@ parameters:
     defaultValue: false
   - name: d_registry
     type: string
-    displayName: "Docker Registry to upload"
+    displayName: "Docker Registry"
     defaultValue: "supportbeescloud"

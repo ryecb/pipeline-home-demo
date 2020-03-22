@@ -1,0 +1,11 @@
+<h2>gitUrlValidator step</h2>
+<h3>Configuration</h3>
+<dl>
+	<dt>url</dt>
+	<dd>Git URL to validate</dd>
+</dl>
+
+<h3>Example:</h3>
+<pre>
+	gitUrlValidator("https://github.com/example-org/example-repo.git")
+</pre>
