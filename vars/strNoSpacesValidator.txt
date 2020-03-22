@@ -1,11 +1,15 @@
-<h2>gitUrlValidator step</h2>
+<h2>strNoSpacesValidator</h2>
 <h3>Configuration</h3>
 <dl>
-	<dt>url</dt>
-	<dd>Git URL to validate</dd>
+	<dt>paramName</dt>
+	<dd>Name of the parameter to validate</dd>
+</dl>
+<dl>
+	<dt>paramValue</dt>
+	<dd>Value of the parameter to validate</dd>
 </dl>
 
 <h3>Example:</h3>
 <pre>
-	gitUrlValidator("https://github.com/example-org/example-repo.git")
+	strNoSpacesValidator("GitHub Repository Name", "My Repo Example ")
 </pre>
