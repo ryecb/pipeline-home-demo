@@ -4,7 +4,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
    remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
    credentialsId: 'carlosrodlop-GH'])
 
-// Form Validation
+// Template Form Validation
 strNoSpacesValidator("GitHub Repository Name", "${ghe_repo}")
 strNoSpacesValidator("Docker Registry", "${d_registry}")
 gitUrlValidator("GitHub Repository Name",
@@ -23,5 +23,5 @@ d_latest : ${d_latest}
 d_registry : '${d_registry}'
 """
 
-// Running the CI Pipeline
+// Calling the CI Pipeline
 mavenK8Project(configYaml)
