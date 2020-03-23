@@ -14,9 +14,9 @@ def call(configYaml) {
             buildDiscarder(logRotator(numToKeepStr: "5", artifactNumToKeepStr: "5"))
         }
         stages {
-            stage ("Skip Run?") {          
+            stage ("Skip Run?") {     
                 when {
-                    anyOf { changeset "**/template.yaml"; changeset "**/Jenkinsfile"} 
+                    anyOf { changeset "**/template.yaml"; changeset "**/Jenkinsfile"}
                 }
                 steps {
                     echo "Aborting Pipeline due to changes are coming from Template definition"
@@ -38,16 +38,15 @@ def call(configYaml) {
                 }
                 environment {
                     DOCKERFILE_PATH = "${config.d_path.trim()}"
-                    GIT_PARAM_REPO = "${config.ghe_repo}"
                 }
-                stages {    
+                stages {
                     stage("Print configuration") {
                         steps {
                             writeYaml file: "config.yaml", data: config 
                             sh "cat config.yaml"
                         }
                     }
-                    stage("Checkout") { 
+                    stage("Checkout") {
                         environment {
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
                         }
@@ -74,12 +73,13 @@ def call(configYaml) {
                     }
                     stage("Test") {
                         steps {
-                            sh 'mvn clean test'
+                            sh "mvn clean test"
                             junit allowEmptyResults: true, testResults: "target/surefire-reports/*.xml"
                         }
                     }
                     stage("Publish in Registry") {
                         environment {
+                            GIT_PARAM_REPO = "${config.ghe_repo}"
                             DOCKER_DESTINATION = "${config.d_registry.trim()}/${GIT_PARAM_REPO}_${git_currentBranch}:${git_commit}"
                         }
                         steps {
