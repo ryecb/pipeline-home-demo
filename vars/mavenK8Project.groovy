@@ -13,7 +13,7 @@ def call(configYaml) {
     pipeline {
         agent none
         options {
-            buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+            buildDiscarder(logRotator(numToKeepStr: "5", artifactNumToKeepStr: "5"))
         }
         environment {
             DOCKERFILE_PATH = "${config.d_path.trim()}"
@@ -26,14 +26,14 @@ def call(configYaml) {
                 steps {
                     echo "Aborting Pipeline due to changes are coming from Template definition"
                     script{
-                        currentBuild.result = 'ABORTED'
+                        currentBuild.result = "ABORTED"
                         skip_run = true
                     }
                 }
             }
             stage ("Run") {
                 when {
-                    environment name: 'skip_run', value: false 
+                    environment name: "skip_run", value: "false"
                 }
                 agent {
                     kubernetes {
@@ -80,7 +80,7 @@ def call(configYaml) {
                     stage("Test") {
                         steps {
                             sh 'mvn clean test'
-                            junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                            junit allowEmptyResults: true, testResults: "target/surefire-reports/*.xml"
                         }
                     }
                     stage("Publish in Registry") {
