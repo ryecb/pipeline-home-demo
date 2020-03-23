@@ -8,7 +8,7 @@ def call(configYaml) {
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
-    boolean skip_run = false
+    skip_run = "false"
 
     pipeline {
         agent none
@@ -27,7 +27,7 @@ def call(configYaml) {
                     echo "Aborting Pipeline due to changes are coming from Template definition"
                     script{
                         currentBuild.result = "ABORTED"
-                        skip_run = true
+                        skip_run = "true"
                     }
                 }
             }
