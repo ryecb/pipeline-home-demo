@@ -10,7 +10,7 @@ strNoSpacesValidator("Docker Registry", "${d_registry}")
 gitUrlValidator("GitHub Repository Name",
               "${ghe_repo}",
               "support-team",
-              "https://github.beescloud.com/api/v3")
+              "https://github.example.com/api/v3")
 
 // Building the data object
 def configYaml = """---
