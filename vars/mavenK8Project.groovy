@@ -51,7 +51,7 @@ def call(configYaml) {
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
                         }
                         steps {
-                            // Checkout process is done implicitly being a multibranch pipeline template
+                            // Checkout step is done implicitly being a multibranch pipeline template
                             script {
                                 git_currentBranch = "${BRANCH_NAME}"
                                 if (DOCKER_IMAGE_LATEST == "false") {
