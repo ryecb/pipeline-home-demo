@@ -15,9 +15,6 @@ def call(configYaml) {
         options {
             buildDiscarder(logRotator(numToKeepStr: "5", artifactNumToKeepStr: "5"))
         }
-        environment {
-            DOCKERFILE_PATH = "${config.d_path.trim()}"
-        }
         stages {
             stage ("Skip Run?") {          
                 when {
@@ -41,6 +38,10 @@ def call(configYaml) {
                         yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
                     }
                 }
+                environment {
+                    DOCKERFILE_PATH = "${config.d_path.trim()}"
+                    GIT_PARAM_REPO = "${config.ghe_repo.trim()}"
+                }
                 stages {    
                     stage("Print configuration") {
                         steps {
@@ -50,16 +51,13 @@ def call(configYaml) {
                     }
                     stage("Checkout") {
                         environment {
-                            GIT_PARAM_CREDENTIALS = "${config.g_cred}"
-                            GIT_PARAM_REPO = "${config.g_repo.trim()}"
+                            GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
                         }
                         steps {
                             script {
-                                echo "Pipeline Multibranch detected"
                                 checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
                                 git_currentBranch = "${BRANCH_NAME}"
-                                git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                                 if (DOCKER_IMAGE_LATEST == "false") {
                                     echo "Tagging image with commit"
                                     git_commit = sh(script: "git rev-parse --short=5 ${GIT_COMMIT}", returnStdout: true).trim()
@@ -85,7 +83,7 @@ def call(configYaml) {
                     }
                     stage("Publish in Registry") {
                         environment {
-                            DOCKER_DESTINATION = "${config.d_registry.trim()}/${git_repo}_${git_currentBranch}:${git_commit}"
+                            DOCKER_DESTINATION = "${config.d_registry.trim()}/${GIT_PARAM_REPO}_${git_currentBranch}:${git_commit}"
                         }
                         steps {
                             container(name: "kaniko", shell: "/busybox/sh") {
