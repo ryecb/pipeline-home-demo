@@ -6,7 +6,7 @@ library identifier: 'my-shared-libraries@master', retriever: modernSCM(
 
 // Building the data object
 def configYaml = """---
-k8_agent_yaml : 'maven_kaniko_pod'
+k8_agent_yaml : 'maven_kaniko_pod_cache'
 g_cred : '3750b7e0-1f59-465a-a9c2-1f8fdd742f00'
 g_repo : 'https://github.beescloud.com/support-team/simple-app-git.git'
 g_branch : 'develop'
