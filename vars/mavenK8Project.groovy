@@ -8,6 +8,7 @@ def call(configYaml) {
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
+    skip_run = false
 
     pipeline {
         agent none
@@ -25,11 +26,15 @@ def call(configYaml) {
                 steps {
                     echo "Aborting Pipeline due to changes are coming from Template definition"
                     script{
-                        currentBuild.result = 'aborted'
+                        currentBuild.result = 'ABORTED'
+                        skip_run = true
                     }
                 }
             }
             stage ("Run") {
+                when {
+                    environment name: 'skip_run', value: false 
+                }
                 agent {
                     kubernetes {
                         defaultContainer "maven"
@@ -51,15 +56,9 @@ def call(configYaml) {
                         }
                         steps {
                             script {
-                                if (GIT_PARAM_BRANCH == "") {
-                                    echo "Pipeline Multibranch detected"
-                                    checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
-                                    git_currentBranch = "${BRANCH_NAME}"
-                                } else {
-                                    echo "Pipeline non Multibranch detected"
-                                    git branch: "${GIT_PARAM_BRANCH}", credentialsId: "${GIT_PARAM_CREDENTIALS}" , url: "${GIT_PARAM_REPO}"
-                                    git_currentBranch = "${GIT_PARAM_BRANCH}"
-                                }
+                                echo "Pipeline Multibranch detected"
+                                checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
+                                git_currentBranch = "${BRANCH_NAME}"
                                 git_repo = sh(script: "basename '${GIT_PARAM_REPO}' .git", returnStdout: true).trim()
                                 if (DOCKER_IMAGE_LATEST == "false") {
                                     echo "Tagging image with commit"
