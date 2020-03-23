@@ -2,7 +2,7 @@
 library identifier: 'my-shared-libraries@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
-   credentialsId: 'carlosrodlop-GH'])
+   credentialsId: '	6a998a68-1b08-4397-9278-49a3fda95bb8'])
 
 // Template Form Validation
 strNoSpacesValidator("GitHub Repository Name", "${ghe_repo}")

@@ -4,7 +4,6 @@ def call(configYaml) {
     Map config = readYaml text: "${configYaml}"
 
     K8_AGENT_YAML = "${config.k8_agent_yaml}"
-    GIT_PARAM_BRANCH = "${config.g_branch.trim()}"
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
@@ -40,25 +39,24 @@ def call(configYaml) {
                 }
                 environment {
                     DOCKERFILE_PATH = "${config.d_path.trim()}"
-                    GIT_PARAM_REPO = "test"
+                    GIT_PARAM_REPO = "${config.ghe_repo}"
                 }
                 stages {    
                     stage("Print configuration") {
                         steps {
-                            echo ""
-                            writeYaml file: "config.yaml", data: config  
+                            writeYaml file: "config.yaml", data: config 
                             sh "cat config.yaml"
                         }
                     }
-                    stage("Checkout") {
+                    stage("Checkout") { 
                         environment {
                             GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
                             //GIT_PARAM_URL="https://github.beescloud.com/support-team/${GIT_PARAM_REPO}.git"
                         }
                         steps {
+                            // Checkout process is done implicitly being a multibranch pipeline template
                             script {
-                                //checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_URL}"]]])
                                 git_currentBranch = "${BRANCH_NAME}"
                                 if (DOCKER_IMAGE_LATEST == "false") {
                                     echo "Tagging image with commit"
