@@ -8,7 +8,7 @@ def call(configYaml) {
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
-    skip_run = "false"
+    run_pipeline = true
 
     pipeline {
         agent none
@@ -27,13 +27,13 @@ def call(configYaml) {
                     echo "Aborting Pipeline due to changes are coming from Template definition"
                     script{
                         currentBuild.result = "ABORTED"
-                        skip_run = "true"
+                        run_pipeline = false
                     }
                 }
             }
             stage ("Run") {
                 when {
-                    environment name: "skip_run", value: "false"
+                    expression { return run_pipeline }
                 }
                 agent {
                     kubernetes {
