@@ -53,10 +53,11 @@ def call(configYaml) {
                         environment {
                             GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
+                            GIT_PARAM_URL="https://github.beescloud.com/support-team/${GIT_PARAM_REPO}.git"
                         }
                         steps {
                             script {
-                                checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_REPO}"]]])
+                                checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_URL}"]]])
                                 git_currentBranch = "${BRANCH_NAME}"
                                 if (DOCKER_IMAGE_LATEST == "false") {
                                     echo "Tagging image with commit"
