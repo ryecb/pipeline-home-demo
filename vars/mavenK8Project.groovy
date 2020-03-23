@@ -8,7 +8,7 @@ def call(configYaml) {
     git_commit = ""
     git_currentBranch = ""
     git_repo = ""
-    skip_run = false
+    boolean skip_run = false
 
     pipeline {
         agent none
