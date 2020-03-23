@@ -40,11 +40,12 @@ def call(configYaml) {
                 }
                 environment {
                     DOCKERFILE_PATH = "${config.d_path.trim()}"
-                    GIT_PARAM_REPO = "${config.ghe_repo.trim()}"
+                    GIT_PARAM_REPO = "test"
                 }
                 stages {    
                     stage("Print configuration") {
                         steps {
+                            echo ""
                             writeYaml file: "config.yaml", data: config  
                             sh "cat config.yaml"
                         }
@@ -53,11 +54,11 @@ def call(configYaml) {
                         environment {
                             GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
-                            GIT_PARAM_URL="https://github.beescloud.com/support-team/${GIT_PARAM_REPO}.git"
+                            //GIT_PARAM_URL="https://github.beescloud.com/support-team/${GIT_PARAM_REPO}.git"
                         }
                         steps {
                             script {
-                                checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_URL}"]]])
+                                //checkout([$class: 'GitSCM', branches: [[name: "${BRANCH_NAME}"]], userRemoteConfigs: [[credentialsId: "${GIT_PARAM_CREDENTIALS}", url: "${GIT_PARAM_URL}"]]])
                                 git_currentBranch = "${BRANCH_NAME}"
                                 if (DOCKER_IMAGE_LATEST == "false") {
                                     echo "Tagging image with commit"
