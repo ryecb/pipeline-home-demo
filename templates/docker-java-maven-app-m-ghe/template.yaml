@@ -16,7 +16,7 @@ parameters:
     type: string
   - name: d_path
     type: string
-    displayName: "Dockerfile build path"
+    displayName: "Dockerfile_ build path"
   - name: d_latest
     type: boolean
     displayName: "Tag as latest?"
