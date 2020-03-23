@@ -50,7 +50,7 @@ def call(configYaml) {
                     }
                     stage("Checkout") { 
                         environment {
-                            GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
+                            //GIT_PARAM_CREDENTIALS = "${config.ghe_cred}"
                             DOCKER_IMAGE_LATEST = "${config.d_latest}"
                             //GIT_PARAM_URL="https://github.beescloud.com/support-team/${GIT_PARAM_REPO}.git"
                         }

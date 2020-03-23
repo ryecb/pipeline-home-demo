@@ -15,8 +15,8 @@ gitUrlValidator("GitHub Repository Name",
 // Building the data object
 def configYaml = """---
 k8_agent_yaml : '${k8_agent_yaml}'
-g_cred : '${ghe_cred}'
-g_repo : '${ghe_repo}'
+ghe_cred : '${ghe_cred}'
+ghe_repo : '${ghe_repo}'
 d_path : '${d_path}'
 d_latest : ${d_latest}
 d_registry : '${d_registry}'
