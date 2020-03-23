@@ -27,6 +27,7 @@ def call(configYaml) {
             }
             stage ("Run") {
                 when {
+                    beforeAgent true
                     expression { currentBuild.result != "ABORTED" }
                 }
                 agent {
