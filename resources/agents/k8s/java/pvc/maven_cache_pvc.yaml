@@ -1,8 +1,10 @@
+
+---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: "PersistentVolumeClaim"
 metadata: 
-  name: maven-pv-claim
-  namespace: cje-support-general
+  name: "maven-pv-claim"
+  namespace: "cje-support-agents"
 spec: 
   accessModes:
     - ReadWriteOnce
