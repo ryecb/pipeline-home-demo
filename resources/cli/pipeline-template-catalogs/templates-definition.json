@@ -3,9 +3,9 @@
     "scm":{
       "$class":"GitSCMSource",
       "remote":"https://github.com/cloudbees-oss/pipeline-home-demo.git",
-      "credentialsId":"GH-carlosrodlop"
+      "credentialsId":"6a998a68-1b08-4397-9278-49a3fda95bb8"
     },
-    "branchOrTag":"master",
+    "branchOrTag":"demo",
     "updateInterval":"2d"
   }
 ]
