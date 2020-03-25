@@ -8,4 +8,4 @@ Not only the [Template Catalog](https://docs.cloudbees.com/docs/admin-resources/
 
 ## Demo: Maven Docker App run by Kubernetes Cloud Agents
 
-This template model the pipeline Continous Integration (CI) process for Maven Apps than are deployed as Docker containers. It integrates CloudBees Core and GitHub Enterprise via webhooks. Builds are managed by Kubernetes agents, successful ones upload images to Dockerhub.
+This demo presents a template that model the pipeline Continous Integration process in the Acme Corporation.  The pipeline defines Maven Apps of the corporation than are deployed as Docker containers. It integrates CloudBees Core and GitHub Enterprise via webhooks. Builds are managed by Kubernetes agents. Finally, Successful builds create an image with the project artifacts and it gets uploaded to Dockerhub (Docker-in-Docker).
