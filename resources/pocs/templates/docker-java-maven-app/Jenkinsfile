@@ -1,18 +1,18 @@
 // Loading Shared Libraries
 library identifier: 'my-shared-libraries@demo', retriever: modernSCM(
   [$class: 'GitSCMSource',
-   remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
-   credentialsId: '6a998a68-1b08-4397-9278-49a3fda95bb8'])
+   remote: 'https://github.com/ryecb/pipeline-home-demo.git',
+   credentialsId: '87f4eaf1-39f7-46be-b282-c5f6d7841245'])
 
 // Building the data object
 def configYaml = """---
 k8_agent_yaml : 'maven_kaniko_pod_cache'
-g_cred : '3750b7e0-1f59-465a-a9c2-1f8fdd742f00'
-g_repo : 'https://github.beescloud.com/support-team/simple-app-git.git'
-g_branch : 'develop'
+g_cred : '87f4eaf1-39f7-46be-b282-c5f6d7841245'
+g_repo : 'https://github.com/ryecb/simple-app.git'
+g_branch : 'master'
 d_path : 'src/main/docker/Dockerfile'
 d_latest : false
-d_registry : 'supportbeescloud'
+d_registry : 'docker-rye'
 """
 
 // Runing the CI Pipeline
@@ -28,7 +28,7 @@ pipeline {
   agent {
     kubernetes {
        defaultContainer "maven"
-       namespace "cje-support-agents"
+       namespace "belgium-dialga-agents"
        yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
       }
   }

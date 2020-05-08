@@ -1,16 +1,16 @@
 // Loading Shared Libraries
 library identifier: 'my-shared-libraries@demo', retriever: modernSCM(
   [$class: 'GitSCMSource',
-   remote: 'https://github.com/cloudbees-oss/pipeline-home-demo.git',
-   credentialsId: '6a998a68-1b08-4397-9278-49a3fda95bb8'])
+   remote: 'https://github.com/ryecb/pipeline-home-demo',
+   credentialsId: '87f4eaf1-39f7-46be-b282-c5f6d7841245'])
 
 // Template Form Validation
 strNoSpacesValidator("GitHub Repository Name", "${ghe_repo}")
 strNoSpacesValidator("Docker Registry", "${d_registry}")
-gitUrlValidator("GitHub Repository Name",
-              "${ghe_repo}",
-              "support-team",
-              "https://github.example.com/api/v3")
+// gitUrlValidator("GitHub Repository Name",
+//               "${ghe_repo}",
+//               "support-team",
+//               "https://github.example.com/api/v3")
 
 // Building the data object
 def configYaml = """---
