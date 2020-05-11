@@ -11,7 +11,7 @@ g_cred : '87f4eaf1-39f7-46be-b282-c5f6d7841245'
 g_repo : 'https://github.com/ryecb/simple-app.git'
 g_branch : 'master'
 d_path : 'src/main/docker/Dockerfile'
-d_latest : false
+d_latest : true
 d_registry : 'docker-rye'
 """
 
