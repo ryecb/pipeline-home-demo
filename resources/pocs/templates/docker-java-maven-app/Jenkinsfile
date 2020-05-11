@@ -12,7 +12,7 @@ g_repo : 'https://github.com/ryecb/simple-app.git'
 g_branch : 'develop'
 d_path : 'src/main/docker/Dockerfile'
 d_latest : true
-d_registry : 'docker-rye'
+d_registry : 'ryedocker'
 """
 
 // Runing the CI Pipeline

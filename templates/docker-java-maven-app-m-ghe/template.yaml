@@ -24,7 +24,7 @@ parameters:
   - name: d_registry
     type: string
     displayName: "Docker Registry"
-    defaultValue: "docker-rye"
+    defaultValue: "ryedocker"
 multibranch:
   branchSource:
     github:

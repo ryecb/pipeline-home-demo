@@ -27,7 +27,7 @@ spec:
     projected:
       sources:
       - secret:
-          name: "docker-rye" # existing kubernetes secret for login into the Docker Registry
+          name: "ryedocker" # existing kubernetes secret for login into the Docker Registry
           items:
             - key: ".dockerconfigjson"
               path: "config.json"
