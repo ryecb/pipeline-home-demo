@@ -9,7 +9,7 @@ def configYaml = """---
 k8_agent_yaml : 'maven_kaniko_pod_cache'
 g_cred : '87f4eaf1-39f7-46be-b282-c5f6d7841245'
 g_repo : 'https://github.com/ryecb/simple-app.git'
-g_branch : 'master'
+g_branch : 'develop'
 d_path : 'src/main/docker/Dockerfile'
 d_latest : true
 d_registry : 'docker-rye'
