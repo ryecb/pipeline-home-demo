@@ -24,12 +24,12 @@ parameters:
   - name: d_registry
     type: string
     displayName: "Docker Registry"
-    defaultValue: "supportbeescloud"
+    defaultValue: "docker-rye"
 multibranch:
   branchSource:
     github:
-      apiUri: "https://github.beescloud.com/api/v3"
-      repoOwner: "support-team"
+      apiUri: "https://github.com/api/v3"
+      repoOwner: "ryecb"
       repository: "${ghe_repo}"
       credentialsId: "${ghe_cred}"
   markerFile: pom.xml

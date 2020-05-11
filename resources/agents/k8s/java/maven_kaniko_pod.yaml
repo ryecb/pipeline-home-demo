@@ -17,10 +17,10 @@ spec:
     - /busybox/cat
     tty: true
     volumeMounts:
-      - name: "jenkins-docker-cfg"
+      - name: "ci-docker-cfg"
         mountPath: "/kaniko/.docker"
   volumes:
-  - name: "jenkins-docker-cfg"
+  - name: "ci-docker-cfg"
     projected:
       sources:
       - secret:
