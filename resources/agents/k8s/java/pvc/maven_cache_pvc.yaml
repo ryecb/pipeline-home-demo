@@ -4,7 +4,7 @@ apiVersion: v1
 kind: "PersistentVolumeClaim"
 metadata: 
   name: "maven-pv-claim"
-  # namespace: "belgium-dialga-agents"
+  namespace: "belgium-dialga-agents"
 spec: 
   accessModes:
     - ReadWriteOnce

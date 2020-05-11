@@ -28,7 +28,7 @@ pipeline {
   agent {
     kubernetes {
        defaultContainer "maven"
-      //  namespace "belgium-dialga-agents"
+       namespace "belgium-dialga-agents"
        yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
       }
   }
