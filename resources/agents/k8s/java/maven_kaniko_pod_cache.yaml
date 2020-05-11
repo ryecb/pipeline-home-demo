@@ -20,7 +20,7 @@ spec:
     - /busybox/cat
     tty: true
     volumeMounts:
-      - name: "cij-docker-cfg"
+      - name: "ci-docker-cfg"
         mountPath: "/kaniko/.docker"
   volumes:
   - name: "ci-docker-cfg"

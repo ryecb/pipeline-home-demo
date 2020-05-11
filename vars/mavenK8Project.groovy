@@ -32,7 +32,7 @@ def call(configYaml) {
                 }
                 agent {
                     kubernetes {
-                        namespace "cje-support-agents"
+                        // namespace "cje-support-agents"
                         defaultContainer "maven"
                         yaml libraryResource("agents/k8s/java/${K8_AGENT_YAML}.yaml")
                     }
